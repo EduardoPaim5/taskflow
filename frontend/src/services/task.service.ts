@@ -81,7 +81,8 @@ function transformTask(apiTask: TaskApiResponse): Task {
 }
 
 export const taskService = {
-  async getAll(_filters: TaskFilters = {}): Promise<PaginatedResponse<Task>> {
+  async getAll(filters: TaskFilters = {}): Promise<PaginatedResponse<Task>> {
+    void filters;
     // Get all projects first, then fetch tasks for each project
     const projectsResponse = await projectService.getAll(0, 100);
     const projects = projectsResponse.content;
