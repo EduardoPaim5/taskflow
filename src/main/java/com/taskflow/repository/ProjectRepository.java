@@ -22,4 +22,10 @@ public interface ProjectRepository extends JpaRepository<Project, Long> {
 
     @Query("SELECT CASE WHEN COUNT(p) > 0 THEN true ELSE false END FROM Project p WHERE p.id = :projectId AND (p.owner.id = :userId OR :userId IN (SELECT m.id FROM p.members m))")
     boolean isUserMemberOfProject(Long projectId, Long userId);
+
+    @Query("SELECT COUNT(p) FROM Project p WHERE p.owner.id = :ownerId")
+    int countByOwnerId(Long ownerId);
+
+    @Query("SELECT COUNT(p) FROM Project p JOIN p.members m WHERE m.id = :memberId")
+    int countByMembersId(Long memberId);
 }

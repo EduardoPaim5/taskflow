@@ -33,4 +33,21 @@ public interface UserRepository extends JpaRepository<User, Long> {
     List<User> findRankingByProject(Long projectId);
 
     List<User> findByNameContainingIgnoreCase(String name);
+
+    @Query("SELECT u FROM User u ORDER BY u.totalPoints DESC")
+    List<User> findAllByOrderByTotalPointsDesc();
+
+    @Query("SELECT u FROM User u ORDER BY u.totalPoints DESC")
+    List<User> findAllByOrderByTotalPointsDesc(org.springframework.data.domain.Pageable pageable);
+
+    @Query("""
+        SELECT u FROM User u 
+        WHERE u.id IN (
+            SELECT pm.id FROM Project p 
+            JOIN p.members pm 
+            WHERE p.id = :projectId
+        ) OR u.id = (SELECT p.owner.id FROM Project p WHERE p.id = :projectId)
+        ORDER BY u.totalPoints DESC
+    """)
+    List<User> findByProjectIdOrderByTotalPointsDesc(Long projectId, org.springframework.data.domain.Pageable pageable);
 }

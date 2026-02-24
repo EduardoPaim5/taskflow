@@ -28,6 +28,8 @@ public class CommentService {
 
     private final CommentRepository commentRepository;
     private final TaskRepository taskRepository;
+    private final GamificationService gamificationService;
+    private final BadgeService badgeService;
 
     public CommentResponse create(Long taskId, CommentRequest request, User author) {
         log.debug("Creating comment on task {} by user {}", taskId, author.getEmail());
@@ -45,6 +47,10 @@ public class CommentService {
 
         Comment saved = commentRepository.save(comment);
         log.info("Comment created with ID {} on task {}", saved.getId(), taskId);
+
+        // Award points for comment
+        gamificationService.awardPointsForComment(author);
+        badgeService.checkAndAwardBadges(author);
 
         return CommentResponse.fromEntity(saved);
     }

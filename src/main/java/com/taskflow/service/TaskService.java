@@ -19,6 +19,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -32,6 +33,8 @@ public class TaskService {
     private final TaskRepository taskRepository;
     private final ProjectRepository projectRepository;
     private final UserRepository userRepository;
+    private final GamificationService gamificationService;
+    private final BadgeService badgeService;
 
     public TaskResponse create(TaskRequest request, User reporter) {
         log.debug("Creating task '{}' for project {}", request.getTitle(), request.getProjectId());
@@ -61,6 +64,9 @@ public class TaskService {
 
         Task saved = taskRepository.save(task);
         log.info("Task '{}' created with ID {}", saved.getTitle(), saved.getId());
+
+        // Award points for task creation
+        gamificationService.awardPointsForTaskCreation(reporter);
 
         return TaskResponse.fromEntity(saved);
     }
@@ -168,8 +174,24 @@ public class TaskService {
         // Handle task completion
         if (newStatus == TaskStatus.DONE && oldStatus != TaskStatus.DONE) {
             task.setCompletedAt(LocalDateTime.now());
-            // TODO: Integrate with gamification service for points
-            log.info("Task {} marked as completed", id);
+            
+            // Award points for task completion
+            User assignee = task.getAssignee();
+            if (assignee != null) {
+                boolean beforeDeadline = task.getDeadline() != null && 
+                        LocalDate.now().isBefore(task.getDeadline());
+                int pointsAwarded = gamificationService.awardPointsForTaskCompletion(
+                        assignee, task.getPriority(), beforeDeadline);
+                task.setPointsAwarded(pointsAwarded);
+                
+                // Check for new badges
+                badgeService.checkAndAwardBadges(assignee);
+                
+                log.info("Task {} completed by user {}. Points awarded: {}", 
+                        id, assignee.getId(), pointsAwarded);
+            } else {
+                log.info("Task {} marked as completed (no assignee)", id);
+            }
         } else if (newStatus != TaskStatus.DONE && oldStatus == TaskStatus.DONE) {
             task.setCompletedAt(null);
             task.setPointsAwarded(0);
