@@ -31,4 +31,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
         ORDER BY u.totalPoints DESC
     """)
     List<User> findRankingByProject(Long projectId);
+
+    List<User> findByNameContainingIgnoreCase(String name);
 }

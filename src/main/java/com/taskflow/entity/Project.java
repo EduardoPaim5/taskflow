@@ -51,12 +51,10 @@ public class Project extends BaseEntity {
     // Helper methods
     public void addMember(User user) {
         this.members.add(user);
-        user.getProjects().add(this);
     }
 
     public void removeMember(User user) {
         this.members.remove(user);
-        user.getProjects().remove(this);
     }
 
     public void addTask(Task task) {

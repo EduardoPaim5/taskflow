@@ -152,12 +152,12 @@ GET /api/reports/project/{id}/csv      # Relatório CSV
 
 ### Badges
 
-- 🎯 **Primeira Tarefa** - Complete sua primeira tarefa
-- 🔥 **Em Chamas** - Streak de 7 dias
-- ⚡ **Velocista** - Complete 5 tarefas em um dia
-- 📝 **Comunicador** - Faça 50 comentários
-- 👑 **Líder** - Seja top 1 do ranking
-- 🏆 **Centurião** - Complete 100 tarefas
+- **Primeira Tarefa** - Complete sua primeira tarefa
+- **Em Chamas** - Streak de 7 dias
+- **Velocista** - Complete 5 tarefas em um dia
+- **Comunicador** - Faça 50 comentários
+- **Líder** - Seja top 1 do ranking
+- **Centurião** - Complete 100 tarefas
 
 ## Estrutura do Projeto
 
@@ -259,6 +259,3 @@ docker-compose up -d
 
 Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
 
----
-
-Desenvolvido com ☕ por [Seu Nome]
