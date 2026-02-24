@@ -98,7 +98,7 @@ export function MainLayout() {
           ${mobileMenuOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
         `}
       >
-        <div className="h-full m-3 flex flex-col aero-sidebar relative overflow-hidden">
+        <div className="h-full m-3 flex flex-col aero-sidebar relative">
           {/* Logo */}
           <div className={`p-4 flex items-center ${sidebarOpen ? 'gap-3' : 'justify-center'} relative z-10`}>
             <div className="icon-sphere w-12 h-12 flex-shrink-0">
@@ -175,15 +175,15 @@ export function MainLayout() {
               </button>
             </div>
           </div>
-
-          {/* Collapse button (desktop only) */}
-          <button
-            onClick={() => setSidebarOpen(!sidebarOpen)}
-            className="hidden lg:flex absolute -right-3 top-1/2 -translate-y-1/2 w-7 h-7 rounded-full items-center justify-center icon-sphere z-20"
-          >
-            <ChevronLeft className={`w-4 h-4 text-white transition-transform relative z-10 ${!sidebarOpen ? 'rotate-180' : ''}`} />
-          </button>
         </div>
+
+        {/* Collapse button (desktop only) - Outside the overflow container */}
+        <button
+          onClick={() => setSidebarOpen(!sidebarOpen)}
+          className="hidden lg:flex absolute right-0 top-1/2 -translate-y-1/2 w-7 h-7 rounded-full items-center justify-center icon-sphere z-50"
+        >
+          <ChevronLeft className={`w-4 h-4 text-white transition-transform relative z-10 ${!sidebarOpen ? 'rotate-180' : ''}`} />
+        </button>
       </aside>
 
       {/* Mobile overlay */}
