@@ -1,35 +1,35 @@
-# TaskFlow
+# Nexilum
 
-Sistema de Gestão de Projetos com Gamificação - API REST desenvolvida com Spring Boot.
+Project Management System with Gamification - Frutiger Aero Style
 
-## Sobre o Projeto
+## About the Project
 
-TaskFlow é uma aplicação inspirada em ferramentas como Jira e Trello, com um diferencial: **sistema de gamificação completo** que inclui pontos, níveis, badges, ranking e heatmap de atividades estilo GitHub.
+Nexilum is an application inspired by tools like Jira and Trello, with a twist: a **complete gamification system** including points, levels, badges, ranking, and a GitHub-style activity heatmap. The frontend features an authentic **Frutiger Aero (2004-2013)** design with glass effects, glossy buttons, and vibrant gradients.
 
 ### Features
 
-- **Autenticação JWT** com roles (ADMIN/USER)
-- **Gestão de Projetos** - CRUD completo com membros
-- **Gestão de Tarefas** - Status (TODO, DOING, DONE), prioridades, deadlines
-- **Comentários** nas tarefas
-- **Histórico de Atividades** (audit log)
-- **Gamificação**
-  - Sistema de pontos por ações
-  - Níveis de usuário (Iniciante → Lenda)
-  - Badges/Conquistas desbloqueáveis
-  - Ranking global e por projeto
-  - Heatmap de contribuições (estilo GitHub)
-- **Colaboração em Tempo Real** via WebSocket
-- **Relatórios** exportáveis em PDF e CSV
-- **Documentação OpenAPI/Swagger**
+- **JWT Authentication** with roles (ADMIN/USER)
+- **Project Management** - Full CRUD with members
+- **Task Management** - Status (TODO, DOING, DONE), priorities, deadlines
+- **Task Comments**
+- **Activity History** (audit log)
+- **Gamification**
+  - Points system for actions
+  - User levels (Beginner → Legend)
+  - Unlockable Badges/Achievements
+  - Global and per-project ranking
+  - Contribution heatmap (GitHub style)
+- **Real-time Collaboration** via WebSocket
+- **Reports** exportable in PDF and CSV
+- **OpenAPI/Swagger Documentation**
 
 ## Tech Stack
 
 ### Backend
-| Tecnologia | Versão |
-|------------|--------|
+| Technology | Version |
+|------------|---------|
 | Java | 17+ |
-| Spring Boot | 3.2.2 |
+| Spring Boot | 3.4.2 |
 | Spring Security | 6.x |
 | Spring Data JPA | 3.x |
 | PostgreSQL | 16 |
@@ -41,178 +41,178 @@ TaskFlow é uma aplicação inspirada em ferramentas como Jira e Trello, com um 
 | Testcontainers | 1.19.3 |
 
 ### Frontend
-| Tecnologia | Versão |
-|------------|--------|
+| Technology | Version |
+|------------|---------|
 | React | 19.x |
 | TypeScript | 5.x |
 | Vite | 7.x |
 | TailwindCSS | 4.x |
 | React Router | 7.x |
 | SockJS + STOMP | - |
-| Lucide React (ícones) | - |
+| Lucide React (icons) | - |
 
-## Pré-requisitos
+## Prerequisites
 
 - Java 17+
-- Docker e Docker Compose
-- Maven 3.8+ (ou use o wrapper `./mvnw`)
+- Docker and Docker Compose
+- Maven 3.8+ (or use the wrapper `./mvnw`)
 
 ## Quick Start
 
-### 1. Clone o repositório
+### 1. Clone the repository
 
 ```bash
 git clone https://github.com/EduardoPaim5/taskflow.git
 cd taskflow
 ```
 
-### 2. Inicie o banco de dados
+### 2. Start the database
 
 ```bash
 docker-compose up -d postgres pgadmin
 ```
 
-### 3. Execute a aplicação
+### 3. Run the application
 
 ```bash
 ./mvnw spring-boot:run
 ```
 
-### 4. Acesse
+### 4. Access
 
 - **API**: http://localhost:8080/api
 - **Swagger UI**: http://localhost:8080/api/swagger-ui.html
-- **pgAdmin**: http://localhost:5050 (admin@taskflow.com / admin123)
+- **pgAdmin**: http://localhost:5050 (admin@nexilum.com / admin123)
 
-## Endpoints Principais
+## Main Endpoints
 
-### Autenticação
+### Authentication
 ```
-POST /api/auth/register    # Criar conta
+POST /api/auth/register    # Create account
 POST /api/auth/login       # Login
 POST /api/auth/refresh     # Refresh token
-GET  /api/auth/me          # Usuário atual
+GET  /api/auth/me          # Current user
 ```
 
-### Projetos
+### Projects
 ```
-GET    /api/projects           # Listar projetos
-POST   /api/projects           # Criar projeto
-GET    /api/projects/{id}      # Detalhes do projeto
-PUT    /api/projects/{id}      # Atualizar projeto
-DELETE /api/projects/{id}      # Deletar projeto
-POST   /api/projects/{id}/members/{userId}  # Adicionar membro
-```
-
-### Tarefas
-```
-GET    /api/tasks              # Listar tarefas (com filtros)
-POST   /api/tasks              # Criar tarefa
-GET    /api/tasks/{id}         # Detalhes da tarefa
-PUT    /api/tasks/{id}         # Atualizar tarefa
-PATCH  /api/tasks/{id}/status  # Mudar status
-DELETE /api/tasks/{id}         # Deletar tarefa
+GET    /api/projects           # List projects
+POST   /api/projects           # Create project
+GET    /api/projects/{id}      # Project details
+PUT    /api/projects/{id}      # Update project
+DELETE /api/projects/{id}      # Delete project
+POST   /api/projects/{id}/members/{userId}  # Add member
 ```
 
-### Comentários
+### Tasks
 ```
-GET    /api/tasks/{taskId}/comments     # Listar comentários
-POST   /api/tasks/{taskId}/comments     # Adicionar comentário
-PUT    /api/comments/{id}               # Editar comentário
-DELETE /api/comments/{id}               # Deletar comentário
-```
-
-### Gamificação
-```
-GET /api/gamification/profile          # Perfil de gamificação
-GET /api/gamification/badges           # Badges do usuário
-GET /api/gamification/ranking          # Ranking global
-GET /api/gamification/ranking/project/{id}  # Ranking por projeto
-GET /api/gamification/heatmap          # Heatmap de atividades
+GET    /api/tasks              # List tasks (with filters)
+POST   /api/tasks              # Create task
+GET    /api/tasks/{id}         # Task details
+PUT    /api/tasks/{id}         # Update task
+PATCH  /api/tasks/{id}/status  # Change status
+DELETE /api/tasks/{id}         # Delete task
 ```
 
-### Relatórios
+### Comments
 ```
-GET /api/reports/project/{id}/pdf      # Relatório PDF
-GET /api/reports/project/{id}/csv      # Relatório CSV
+GET    /api/tasks/{taskId}/comments     # List comments
+POST   /api/tasks/{taskId}/comments     # Add comment
+PUT    /api/comments/{id}               # Edit comment
+DELETE /api/comments/{id}               # Delete comment
 ```
 
-## Sistema de Gamificação
+### Gamification
+```
+GET /api/gamification/profile          # Gamification profile
+GET /api/gamification/badges           # User badges
+GET /api/gamification/ranking          # Global ranking
+GET /api/gamification/ranking/project/{id}  # Project ranking
+GET /api/gamification/heatmap          # Activity heatmap
+```
 
-### Pontuação
+### Reports
+```
+GET /api/reports/project/{id}/pdf      # PDF report
+GET /api/reports/project/{id}/csv      # CSV report
+```
 
-| Ação | Pontos |
-|------|--------|
-| Criar tarefa | +5 |
-| Completar tarefa (baixa) | +10 |
-| Completar tarefa (média) | +20 |
-| Completar tarefa (alta) | +30 |
-| Comentar | +2 |
-| Completar antes do deadline | +15 bônus |
-| Streak diário | +5 |
+## Gamification System
 
-### Níveis
+### Points
 
-| Nível | Nome | Pontos |
+| Action | Points |
+|--------|--------|
+| Create task | +5 |
+| Complete task (low priority) | +10 |
+| Complete task (medium priority) | +20 |
+| Complete task (high priority) | +30 |
+| Comment | +2 |
+| Complete before deadline | +15 bonus |
+| Daily streak | +5 |
+
+### Levels
+
+| Level | Name | Points |
 |-------|------|--------|
-| 1 | Iniciante | 0-99 |
-| 2 | Aprendiz | 100-299 |
-| 3 | Colaborador | 300-599 |
-| 4 | Especialista | 600-999 |
-| 5 | Mestre | 1000-1999 |
-| 6 | Lenda | 2000+ |
+| 1 | Beginner | 0-99 |
+| 2 | Apprentice | 100-299 |
+| 3 | Collaborator | 300-599 |
+| 4 | Specialist | 600-999 |
+| 5 | Master | 1000-1999 |
+| 6 | Legend | 2000+ |
 
 ### Badges
 
-- **Primeira Tarefa** - Complete sua primeira tarefa
-- **Em Chamas** - Streak de 7 dias
-- **Velocista** - Complete 5 tarefas em um dia
-- **Comunicador** - Faça 50 comentários
-- **Líder** - Seja top 1 do ranking
-- **Centurião** - Complete 100 tarefas
+- **First Task** - Complete your first task
+- **On Fire** - 7-day streak
+- **Speedster** - Complete 5 tasks in one day
+- **Communicator** - Make 50 comments
+- **Leader** - Be #1 in the ranking
+- **Centurion** - Complete 100 tasks
 
-## Estrutura do Projeto
+## Project Structure
 
 ```
-src/main/java/com/taskflow/
-├── config/          # Configurações (Security, WebSocket, OpenAPI)
+src/main/java/com/nexilum/
+├── config/          # Configurations (Security, WebSocket, OpenAPI)
 ├── controller/      # REST Controllers
 ├── dto/             # Data Transfer Objects
 │   ├── request/
 │   └── response/
-├── entity/          # Entidades JPA
-├── enums/           # Enumerações
+├── entity/          # JPA Entities
+├── enums/           # Enumerations
 ├── exception/       # Exception handlers
 ├── repository/      # Spring Data repositories
-├── security/        # JWT e filtros
-├── service/         # Lógica de negócio
+├── security/        # JWT and filters
+├── service/         # Business logic
 │   └── impl/
-├── websocket/       # Handlers WebSocket
-└── TaskFlowApplication.java
+├── websocket/       # WebSocket handlers
+└── NexilumApplication.java
 ```
 
-## Testes
+## Tests
 
 ```bash
-# Rodar todos os testes
+# Run all tests
 ./mvnw test
 
-# Com cobertura
+# With coverage
 ./mvnw test jacoco:report
 
-# Ver relatório de cobertura
+# View coverage report
 open target/site/jacoco/index.html
 ```
 
 ## Docker
 
-### Build da imagem
+### Build the image
 
 ```bash
-docker build -t taskflow:latest .
+docker build -t nexilum:latest .
 ```
 
-### Rodar tudo com Docker Compose
+### Run everything with Docker Compose
 
 ```bash
 docker-compose up -d
@@ -220,57 +220,56 @@ docker-compose up -d
 
 ## Deploy
 
-### Railway (recomendado)
+### Railway (recommended)
 
-1. Conecte seu repositório GitHub
-2. Configure as variáveis de ambiente:
+1. Connect your GitHub repository
+2. Configure environment variables:
    - `SPRING_PROFILES_ACTIVE=prod`
-   - `JWT_SECRET=sua-chave-secreta-segura`
-   - `DATABASE_URL` (fornecido pelo Railway)
+   - `JWT_SECRET=your-secure-secret-key`
+   - `DATABASE_URL` (provided by Railway)
 
 ### Render
 
-1. Crie um Web Service
-2. Conecte o repositório
+1. Create a Web Service
+2. Connect the repository
 3. Build command: `./mvnw package -DskipTests`
 4. Start command: `java -jar target/*.jar`
 
-## Variáveis de Ambiente
+## Environment Variables
 
-| Variável | Descrição | Padrão |
-|----------|-----------|--------|
-| `SPRING_PROFILES_ACTIVE` | Perfil ativo | `dev` |
-| `JWT_SECRET` | Chave secreta JWT | (gerada) |
-| `SPRING_DATASOURCE_URL` | URL do banco | `jdbc:postgresql://localhost:5432/taskflow` |
-| `SPRING_DATASOURCE_USERNAME` | Usuário do banco | `taskflow` |
-| `SPRING_DATASOURCE_PASSWORD` | Senha do banco | `taskflow123` |
+| Variable | Description | Default |
+|----------|-------------|---------|
+| `SPRING_PROFILES_ACTIVE` | Active profile | `dev` |
+| `JWT_SECRET` | JWT secret key | (generated) |
+| `SPRING_DATASOURCE_URL` | Database URL | `jdbc:postgresql://localhost:5432/taskflow` |
+| `SPRING_DATASOURCE_USERNAME` | Database user | `taskflow` |
+| `SPRING_DATASOURCE_PASSWORD` | Database password | `taskflow123` |
 
 ## Roadmap
 
-- [x] Setup inicial do projeto
-- [x] Autenticação JWT
-- [x] CRUD de Projetos
-- [x] CRUD de Tarefas
-- [x] Sistema de Comentários
-- [x] Histórico de Atividades
-- [x] Sistema de Gamificação
-- [x] WebSocket para tempo real
-- [x] Relatórios PDF/CSV
-- [x] Frontend React com TypeScript
-- [x] Design Frutiger Aero (estilo clássico 2004-2013)
-- [x] Notificações em tempo real via WebSocket
-- [ ] Testes de integração
+- [x] Initial project setup
+- [x] JWT Authentication
+- [x] Project CRUD
+- [x] Task CRUD
+- [x] Comments system
+- [x] Activity history
+- [x] Gamification system
+- [x] WebSocket for real-time
+- [x] PDF/CSV Reports
+- [x] React + TypeScript Frontend
+- [x] Frutiger Aero Design (classic 2004-2013 style)
+- [x] Real-time notifications via WebSocket
+- [ ] Integration tests
 - [ ] Deploy
 
-## Contribuindo
+## Contributing
 
-1. Fork o projeto
-2. Crie uma branch (`git checkout -b feature/nova-feature`)
-3. Commit suas mudanças (`git commit -m 'Add nova feature'`)
-4. Push para a branch (`git push origin feature/nova-feature`)
-5. Abra um Pull Request
+1. Fork the project
+2. Create a branch (`git checkout -b feature/new-feature`)
+3. Commit your changes (`git commit -m 'Add new feature'`)
+4. Push to the branch (`git push origin feature/new-feature`)
+5. Open a Pull Request
 
-## Licença
+## License
 
-Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
-
+This project is under the MIT license. See the [LICENSE](LICENSE) file for more details.

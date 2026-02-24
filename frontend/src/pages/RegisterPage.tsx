@@ -85,7 +85,7 @@ export function RegisterPage() {
                 textShadow: '0 2px 4px rgba(255,255,255,0.5)',
               }}
             >
-              TaskFlow
+              Nexilum
             </h1>
             <p 
               className="text-lg font-medium"
@@ -249,7 +249,7 @@ export function RegisterPage() {
             className="text-center text-sm mt-6 font-medium"
             style={{ color: 'rgba(74, 63, 107, 0.7)' }}
           >
-            2026 TaskFlow. Todos os direitos reservados.
+            2026 Nexilum. Todos os direitos reservados.
           </p>
         </div>
       </div>

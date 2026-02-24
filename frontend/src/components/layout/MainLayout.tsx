@@ -107,7 +107,7 @@ export function MainLayout() {
             {sidebarOpen && (
               <div>
                 <h1 className="text-xl font-bold text-sky-900">
-                  TaskFlow
+                  Nexilum
                 </h1>
                 <p className="text-xs text-sky-700">
                   Aero Edition
