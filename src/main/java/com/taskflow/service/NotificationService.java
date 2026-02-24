@@ -15,16 +15,16 @@ public class NotificationService {
     private final SimpMessagingTemplate messagingTemplate;
 
     /**
-     * Envia notificacao para um usuario especifico
+     * Envia notificacao para um usuario especifico usando email como identificador
      */
-    public void sendToUser(Long userId, NotificationResponse notification) {
+    public void sendToUser(User user, NotificationResponse notification) {
         String destination = "/queue/notifications";
         messagingTemplate.convertAndSendToUser(
-                userId.toString(),
+                user.getEmail(),
                 destination,
                 notification
         );
-        log.debug("Notification sent to user {}: {}", userId, notification.getType());
+        log.debug("Notification sent to user {}: {}", user.getEmail(), notification.getType());
     }
 
     /**
@@ -32,12 +32,12 @@ public class NotificationService {
      */
     public void sendToProject(Project project, NotificationResponse notification) {
         // Envia para o owner
-        sendToUser(project.getOwner().getId(), notification);
+        sendToUser(project.getOwner(), notification);
         
         // Envia para todos os membros
         project.getMembers().forEach(member -> {
             if (!member.getId().equals(project.getOwner().getId())) {
-                sendToUser(member.getId(), notification);
+                sendToUser(member, notification);
             }
         });
         
@@ -57,7 +57,7 @@ public class NotificationService {
                     assigner.getId(),
                     assigner.getName()
             );
-            sendToUser(task.getAssignee().getId(), notification);
+            sendToUser(task.getAssignee(), notification);
         }
     }
 
@@ -77,13 +77,13 @@ public class NotificationService {
 
         // Notifica o assignee se for diferente do actor
         if (task.getAssignee() != null && !task.getAssignee().getId().equals(actor.getId())) {
-            sendToUser(task.getAssignee().getId(), notification);
+            sendToUser(task.getAssignee(), notification);
         }
 
         // Notifica o reporter da tarefa se for diferente do actor e do assignee
         if (task.getReporter() != null && !task.getReporter().getId().equals(actor.getId()) 
                 && (task.getAssignee() == null || !task.getReporter().getId().equals(task.getAssignee().getId()))) {
-            sendToUser(task.getReporter().getId(), notification);
+            sendToUser(task.getReporter(), notification);
         }
     }
 
@@ -104,13 +104,13 @@ public class NotificationService {
 
         // Notifica o assignee da tarefa
         if (task.getAssignee() != null && !task.getAssignee().getId().equals(commenter.getId())) {
-            sendToUser(task.getAssignee().getId(), notification);
+            sendToUser(task.getAssignee(), notification);
         }
 
         // Notifica o reporter da tarefa
         if (task.getReporter() != null && !task.getReporter().getId().equals(commenter.getId())
                 && (task.getAssignee() == null || !task.getReporter().getId().equals(task.getAssignee().getId()))) {
-            sendToUser(task.getReporter().getId(), notification);
+            sendToUser(task.getReporter(), notification);
         }
     }
 
@@ -123,7 +123,7 @@ public class NotificationService {
                 badge.getName(),
                 badge.getDescription()
         );
-        sendToUser(user.getId(), notification);
+        sendToUser(user, notification);
     }
 
     /**
@@ -135,7 +135,7 @@ public class NotificationService {
                 levelName,
                 user.getTotalPoints()
         );
-        sendToUser(user.getId(), notification);
+        sendToUser(user, notification);
     }
 
     /**
@@ -148,7 +148,7 @@ public class NotificationService {
                 addedBy.getId(),
                 addedBy.getName()
         );
-        sendToUser(addedMember.getId(), notification);
+        sendToUser(addedMember, notification);
     }
 
     /**

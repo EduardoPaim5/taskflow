@@ -13,6 +13,7 @@ import {
   ChevronLeft
 } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
+import { NotificationBell } from '../ui/NotificationBell';
 
 const navItems = [
   { to: '/dashboard', icon: LayoutDashboard, label: 'Dashboard' },
@@ -76,7 +77,7 @@ export function MainLayout() {
           }}
         >
           {/* Logo */}
-          <div className="p-4 flex items-center gap-3">
+          <div className={`p-4 flex items-center ${sidebarOpen ? 'gap-3' : 'justify-center'}`}>
             <div 
               className="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 shine"
               style={{
@@ -106,7 +107,8 @@ export function MainLayout() {
                 to={item.to}
                 onClick={() => setMobileMenuOpen(false)}
                 className={({ isActive }) => `
-                  flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200
+                  flex items-center rounded-xl transition-all duration-200
+                  ${sidebarOpen ? 'gap-3 px-4 py-3' : 'justify-center p-3'}
                   ${isActive 
                     ? 'text-white' 
                     : 'hover:bg-white/40'
@@ -127,7 +129,7 @@ export function MainLayout() {
 
           {/* User section */}
           <div className="p-4 border-t border-white/30">
-            <div className="flex items-center gap-3">
+            <div className={`flex items-center ${sidebarOpen ? 'gap-3' : 'justify-center'}`}>
               <div 
                 className="w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold text-white flex-shrink-0"
                 style={{
@@ -148,10 +150,10 @@ export function MainLayout() {
               )}
             </div>
 
-            <div className={`mt-3 flex ${sidebarOpen ? 'gap-2' : 'flex-col gap-2'}`}>
+            <div className={`mt-3 flex ${sidebarOpen ? 'gap-2' : 'flex-col gap-2 items-center'}`}>
               <NavLink
                 to="/profile"
-                className="flex-1 flex items-center justify-center gap-2 px-3 py-2 rounded-xl hover:bg-white/40 transition-colors"
+                className={`flex items-center justify-center gap-2 rounded-xl hover:bg-white/40 transition-colors ${sidebarOpen ? 'flex-1 px-3 py-2' : 'p-2'}`}
                 style={{ color: '#4a6fa5' }}
               >
                 <User className="w-4 h-4" />
@@ -159,7 +161,7 @@ export function MainLayout() {
               </NavLink>
               <button
                 onClick={handleLogout}
-                className="flex-1 flex items-center justify-center gap-2 px-3 py-2 rounded-xl hover:bg-red-100/50 transition-colors text-red-600"
+                className={`flex items-center justify-center gap-2 rounded-xl hover:bg-red-100/50 transition-colors text-red-600 ${sidebarOpen ? 'flex-1 px-3 py-2' : 'p-2'}`}
               >
                 <LogOut className="w-4 h-4" />
                 {sidebarOpen && <span className="text-sm">Sair</span>}
@@ -197,7 +199,17 @@ export function MainLayout() {
           pt-16 lg:pt-0
         `}
       >
-        <div className="p-4 lg:p-8">
+        {/* Top bar with notifications */}
+        <div className="hidden lg:flex items-center justify-end p-4 lg:p-6 lg:pb-0">
+          <NotificationBell />
+        </div>
+
+        {/* Mobile top bar */}
+        <div className="lg:hidden fixed top-3 right-4 z-40">
+          <NotificationBell />
+        </div>
+
+        <div className="p-4 lg:p-8 lg:pt-4">
           <Outlet />
         </div>
       </main>

@@ -33,6 +33,10 @@ export const authService = {
     return localStorage.getItem('token');
   },
 
+  getAccessToken(): string | null {
+    return localStorage.getItem('token');
+  },
+
   setTokens(token: string, refreshToken: string): void {
     localStorage.setItem('token', token);
     localStorage.setItem('refreshToken', refreshToken);

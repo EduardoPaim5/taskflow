@@ -146,6 +146,36 @@ export interface HeatmapEntry {
   count: number;
 }
 
+// Notification types
+export type NotificationType =
+  | 'TASK_ASSIGNED'
+  | 'TASK_STATUS_CHANGED'
+  | 'TASK_COMMENT_ADDED'
+  | 'BADGE_EARNED'
+  | 'LEVEL_UP'
+  | 'PROJECT_MEMBER_ADDED'
+  | 'PROJECT_UPDATED';
+
+export interface Notification {
+  id: string;
+  type: NotificationType;
+  title: string;
+  message: string;
+  entityId?: number;
+  entityType?: string;
+  projectId?: number;
+  projectName?: string;
+  actorId?: number;
+  actorName?: string;
+  timestamp: string;
+  read: boolean;
+}
+
+export interface ProjectEvent {
+  event: string;
+  payload: unknown;
+}
+
 // API Response types
 export interface ApiResponse<T> {
   success: boolean;
