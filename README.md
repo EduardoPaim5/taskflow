@@ -25,6 +25,7 @@ TaskFlow é uma aplicação inspirada em ferramentas como Jira e Trello, com um 
 
 ## Tech Stack
 
+### Backend
 | Tecnologia | Versão |
 |------------|--------|
 | Java | 17+ |
@@ -38,6 +39,17 @@ TaskFlow é uma aplicação inspirada em ferramentas como Jira e Trello, com um 
 | Docker | - |
 | JUnit 5 + Mockito | - |
 | Testcontainers | 1.19.3 |
+
+### Frontend
+| Tecnologia | Versão |
+|------------|--------|
+| React | 19.x |
+| TypeScript | 5.x |
+| Vite | 7.x |
+| TailwindCSS | 4.x |
+| React Router | 7.x |
+| SockJS + STOMP | - |
+| Lucide React (ícones) | - |
 
 ## Pré-requisitos
 
@@ -244,6 +256,9 @@ docker-compose up -d
 - [x] Sistema de Gamificação
 - [x] WebSocket para tempo real
 - [x] Relatórios PDF/CSV
+- [x] Frontend React com TypeScript
+- [x] Design Frutiger Aero (estilo clássico 2004-2013)
+- [x] Notificações em tempo real via WebSocket
 - [ ] Testes de integração
 - [ ] Deploy
 
