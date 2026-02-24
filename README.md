@@ -242,8 +242,8 @@ docker-compose up -d
 - [x] Sistema de Comentários
 - [x] Histórico de Atividades
 - [x] Sistema de Gamificação
-- [ ] WebSocket para tempo real
-- [ ] Relatórios PDF/CSV
+- [x] WebSocket para tempo real
+- [x] Relatórios PDF/CSV
 - [ ] Testes de integração
 - [ ] Deploy
 
