@@ -220,6 +220,16 @@ public class TaskService {
                 log.info("Task {} marked as completed (no assignee)", id);
             }
         } else if (newStatus != TaskStatus.DONE && oldStatus == TaskStatus.DONE) {
+            // Task moved out of DONE - remove points
+            User assignee = task.getAssignee();
+            int pointsToRemove = task.getPointsAwarded();
+            
+            if (assignee != null && pointsToRemove > 0) {
+                gamificationService.removePointsForTaskUncompletion(assignee, pointsToRemove);
+                log.info("Task {} moved out of DONE. Removed {} points from user {}", 
+                        id, pointsToRemove, assignee.getId());
+            }
+            
             task.setCompletedAt(null);
             task.setPointsAwarded(0);
         }

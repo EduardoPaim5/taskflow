@@ -124,6 +124,32 @@ public class GamificationService {
     }
 
     @Transactional
+    public void removePointsForTaskUncompletion(User user, int pointsToRemove) {
+        if (pointsToRemove <= 0) {
+            return;
+        }
+        
+        user.removePoints(pointsToRemove);
+        user.setTasksCompleted(Math.max(0, user.getTasksCompleted() - 1));
+        
+        // Check and update level (may go down)
+        checkAndUpdateLevelDown(user);
+        
+        // Log activity
+        ActivityLog activityLog = ActivityLog.builder()
+                .user(user)
+                .action(ActionType.TASK_COMPLETED) // Reusing action type
+                .pointsEarned(-pointsToRemove)
+                .details("Tarefa removida de concluido - pontos devolvidos")
+                .build();
+        activityLogRepository.save(activityLog);
+        
+        userRepository.save(user);
+        
+        log.info("Removed {} points from user {} for task uncompletion", pointsToRemove, user.getId());
+    }
+
+    @Transactional
     public int awardPoints(User user, int points, ActionType action, String details) {
         user.addPoints(points);
         
@@ -193,6 +219,24 @@ public class GamificationService {
                             .details("Subiu para o nivel " + level + " - " + info.name)
                             .build();
                     activityLogRepository.save(levelUpLog);
+                }
+                break;
+            }
+        }
+    }
+
+    private void checkAndUpdateLevelDown(User user) {
+        int totalPoints = user.getTotalPoints();
+
+        for (Map.Entry<Integer, LevelInfo> entry : LEVELS.entrySet()) {
+            int level = entry.getKey();
+            LevelInfo info = entry.getValue();
+
+            if (totalPoints >= info.minPoints && totalPoints <= info.maxPoints) {
+                if (level != user.getLevel()) {
+                    user.setLevel(level);
+                    user.setLevelName(info.name);
+                    log.info("User {} level adjusted to {} ({})", user.getId(), level, info.name);
                 }
                 break;
             }

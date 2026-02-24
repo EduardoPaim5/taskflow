@@ -124,4 +124,8 @@ public class User extends BaseEntity implements UserDetails {
     public void addPoints(int points) {
         this.totalPoints += points;
     }
+
+    public void removePoints(int points) {
+        this.totalPoints = Math.max(0, this.totalPoints - points);
+    }
 }
