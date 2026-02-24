@@ -240,8 +240,8 @@ docker-compose up -d
 - [x] CRUD de Projetos
 - [x] CRUD de Tarefas
 - [x] Sistema de Comentários
-- [ ] Histórico de Atividades
-- [ ] Sistema de Gamificação
+- [x] Histórico de Atividades
+- [x] Sistema de Gamificação
 - [ ] WebSocket para tempo real
 - [ ] Relatórios PDF/CSV
 - [ ] Testes de integração
