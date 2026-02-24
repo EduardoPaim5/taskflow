@@ -239,8 +239,11 @@ docker-compose up -d
 1. Connect your GitHub repository
 2. Configure environment variables:
    - `SPRING_PROFILES_ACTIVE=prod`
-   - `JWT_SECRET=your-secure-secret-key`
-   - `DATABASE_URL` (provided by Railway)
+   - `JWT_SECRET=<32+ chars>`
+   - `DB_URL` (provided by Railway)
+   - `DB_USER`
+   - `DB_PASSWORD`
+   - `CORS_ALLOWED_ORIGINS=https://seu-frontend.com`
 
 ### Render
 
@@ -254,10 +257,16 @@ docker-compose up -d
 | Variable | Description | Default |
 |----------|-------------|---------|
 | `SPRING_PROFILES_ACTIVE` | Active profile | `dev` |
-| `JWT_SECRET` | JWT secret key | (generated) |
-| `SPRING_DATASOURCE_URL` | Database URL | `jdbc:postgresql://localhost:5432/taskflow` |
-| `SPRING_DATASOURCE_USERNAME` | Database user | `taskflow` |
-| `SPRING_DATASOURCE_PASSWORD` | Database password | `taskflow123` |
+| `PORT` | App port | `8080` |
+| `DB_URL` | Database URL | `jdbc:postgresql://localhost:5432/taskflow` |
+| `DB_USER` | Database user | `taskflow` |
+| `DB_PASSWORD` | Database password | `taskflow` |
+| `JWT_SECRET` | JWT secret key | `dev-only-change-me-to-a-32-char-secret` |
+| `JWT_EXPIRATION_MS` | Access token duration | `86400000` |
+| `JWT_REFRESH_EXPIRATION_MS` | Refresh token duration | `604800000` |
+| `CORS_ALLOWED_ORIGINS` | Allowed HTTP/WS origins (comma-separated) | `localhost dev only` |
+| `SPRINGDOC_ENABLED` | Enable Swagger/OpenAPI endpoints | `true` (`false` in prod profile) |
+| `APP_API_PUBLIC_URL` | OpenAPI server URL | `http://localhost:8080/api` |
 
 ## Roadmap
 

@@ -30,32 +30,36 @@ public class WebSocketAuthInterceptor implements ChannelInterceptor {
         if (accessor != null && StompCommand.CONNECT.equals(accessor.getCommand())) {
             String authHeader = accessor.getFirstNativeHeader("Authorization");
 
-            if (authHeader != null && authHeader.startsWith("Bearer ")) {
-                String token = authHeader.substring(7);
-
-                try {
-                    String username = jwtService.extractUsername(token);
-
-                    if (username != null) {
-                        UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-
-                        if (jwtService.isTokenValid(token, userDetails)) {
-                            UsernamePasswordAuthenticationToken authentication =
-                                    new UsernamePasswordAuthenticationToken(
-                                            userDetails,
-                                            null,
-                                            userDetails.getAuthorities()
-                                    );
-
-                            SecurityContextHolder.getContext().setAuthentication(authentication);
-                            accessor.setUser(authentication);
-                            log.debug("WebSocket authenticated for user: {}", username);
-                        }
-                    }
-                } catch (Exception e) {
-                    log.warn("WebSocket authentication failed: {}", e.getMessage());
-                }
+            if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+                throw new IllegalArgumentException("WebSocket requer Authorization Bearer token");
             }
+
+            String token = authHeader.substring(7);
+
+            try {
+                String username = jwtService.extractUsername(token);
+
+                if (username != null) {
+                    UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+
+                    if (jwtService.isTokenValid(token, userDetails)) {
+                        UsernamePasswordAuthenticationToken authentication =
+                                new UsernamePasswordAuthenticationToken(
+                                        userDetails,
+                                        null,
+                                        userDetails.getAuthorities()
+                                );
+
+                        SecurityContextHolder.getContext().setAuthentication(authentication);
+                        accessor.setUser(authentication);
+                        log.debug("WebSocket authenticated for user: {}", username);
+                        return message;
+                    }
+                }
+            } catch (Exception e) {
+                log.warn("WebSocket authentication failed: {}", e.getMessage());
+            }
+            throw new IllegalArgumentException("WebSocket token inválido");
         }
 
         return message;

@@ -20,15 +20,21 @@ public class OpenApiConfig {
     @Value("${server.port:8080}")
     private String serverPort;
 
+    @Value("${app.api.public-url:}")
+    private String publicApiUrl;
+
     @Bean
     public OpenAPI customOpenAPI() {
         final String securitySchemeName = "bearerAuth";
+        String primaryServerUrl = publicApiUrl != null && !publicApiUrl.isBlank()
+                ? publicApiUrl
+                : "http://localhost:" + serverPort + "/api";
         
         return new OpenAPI()
             .info(new Info()
-                .title("TaskFlow API")
+                .title("Nexilum API")
                 .description("""
-                    API REST para o sistema TaskFlow - Gestão de Projetos com Gamificação.
+                    API REST do Nexilum - Gestão de Projetos com Gamificação.
                     
                     ## Features
                     - Autenticação JWT
@@ -46,13 +52,12 @@ public class OpenApiConfig {
                 .contact(new Contact()
                     .name("Eduardo Paim")
                     .email("epaimmmv@gmail.com")
-                    .url("https://github.com/EduardoPaim5/taskflow"))
+                    .url("https://github.com/EduardoPaim5/Nexilum"))
                 .license(new License()
                     .name("MIT License")
                     .url("https://opensource.org/licenses/MIT")))
             .servers(List.of(
-                new Server().url("http://localhost:" + serverPort + "/api").description("Development Server"),
-                new Server().url("https://taskflow-api.onrender.com/api").description("Production Server")
+                new Server().url(primaryServerUrl).description("API Server")
             ))
             .addSecurityItem(new SecurityRequirement().addList(securitySchemeName))
             .components(new Components()
