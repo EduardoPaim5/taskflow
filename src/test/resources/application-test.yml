@@ -1,0 +1,20 @@
+# Test profile
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/taskflow_test
+    username: taskflow
+    password: taskflow123
+
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+
+jwt:
+  secret: test-secret-key-for-testing-purposes-only-256-bits
+  expiration: 86400000
+  refresh-expiration: 604800000
+
+logging:
+  level:
+    root: WARN
+    com.taskflow: DEBUG

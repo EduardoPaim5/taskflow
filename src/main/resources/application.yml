@@ -1,0 +1,120 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /api
+
+spring:
+  application:
+    name: TaskFlow
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/taskflow
+    username: taskflow
+    password: taskflow123
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+    open-in-view: false
+
+  jackson:
+    serialization:
+      write-dates-as-timestamps: false
+    default-property-inclusion: non_null
+
+# JWT Configuration
+jwt:
+  secret: ${JWT_SECRET:minha-chave-secreta-super-segura-para-jwt-256-bits-taskflow-2024}
+  expiration: 86400000 # 24 horas em milliseconds
+  refresh-expiration: 604800000 # 7 dias em milliseconds
+
+# Gamification Configuration
+gamification:
+  points:
+    create-task: 5
+    complete-task-low: 10
+    complete-task-medium: 20
+    complete-task-high: 30
+    comment: 2
+    early-completion-bonus: 15
+    daily-streak: 5
+  levels:
+    - name: Iniciante
+      min-points: 0
+    - name: Aprendiz
+      min-points: 100
+    - name: Colaborador
+      min-points: 300
+    - name: Especialista
+      min-points: 600
+    - name: Mestre
+      min-points: 1000
+    - name: Lenda
+      min-points: 2000
+
+# OpenAPI / Swagger
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    operations-sorter: method
+    tags-sorter: alpha
+
+# Logging
+logging:
+  level:
+    root: INFO
+    com.taskflow: DEBUG
+    org.springframework.security: INFO
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+
+---
+# Profile: Development
+spring:
+  config:
+    activate:
+      on-profile: dev
+
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: create-drop
+
+logging:
+  level:
+    com.taskflow: DEBUG
+
+---
+# Profile: Docker
+spring:
+  config:
+    activate:
+      on-profile: docker
+
+  datasource:
+    url: jdbc:postgresql://postgres:5432/taskflow
+
+---
+# Profile: Production
+spring:
+  config:
+    activate:
+      on-profile: prod
+
+  jpa:
+    show-sql: false
+    hibernate:
+      ddl-auto: validate
+
+logging:
+  level:
+    root: WARN
+    com.taskflow: INFO
