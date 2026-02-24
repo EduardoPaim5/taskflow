@@ -29,6 +29,7 @@ public class ProjectService {
     private final ProjectRepository projectRepository;
     private final TaskRepository taskRepository;
     private final UserRepository userRepository;
+    private final NotificationService notificationService;
 
     public ProjectResponse create(ProjectRequest request, User owner) {
         log.debug("Creating project '{}' for user {}", request.getName(), owner.getEmail());
@@ -130,6 +131,10 @@ public class ProjectService {
         Project updated = projectRepository.save(project);
 
         log.info("User {} added to project {}", userId, projectId);
+        
+        // Send notification to the new member
+        notificationService.notifyMemberAdded(updated, newMember, currentUser);
+        
         return ProjectResponse.fromEntity(updated);
     }
 

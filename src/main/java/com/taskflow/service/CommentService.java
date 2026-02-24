@@ -30,6 +30,7 @@ public class CommentService {
     private final TaskRepository taskRepository;
     private final GamificationService gamificationService;
     private final BadgeService badgeService;
+    private final NotificationService notificationService;
 
     public CommentResponse create(Long taskId, CommentRequest request, User author) {
         log.debug("Creating comment on task {} by user {}", taskId, author.getEmail());
@@ -51,6 +52,9 @@ public class CommentService {
         // Award points for comment
         gamificationService.awardPointsForComment(author);
         badgeService.checkAndAwardBadges(author);
+
+        // Notify task assignee and reporter about new comment
+        notificationService.notifyCommentAdded(saved, author);
 
         return CommentResponse.fromEntity(saved);
     }

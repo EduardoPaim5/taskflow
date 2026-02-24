@@ -35,6 +35,7 @@ public class TaskService {
     private final UserRepository userRepository;
     private final GamificationService gamificationService;
     private final BadgeService badgeService;
+    private final NotificationService notificationService;
 
     public TaskResponse create(TaskRequest request, User reporter) {
         log.debug("Creating task '{}' for project {}", request.getTitle(), request.getProjectId());
@@ -67,6 +68,11 @@ public class TaskService {
 
         // Award points for task creation
         gamificationService.awardPointsForTaskCreation(reporter);
+
+        // Send notification if task is assigned to someone else
+        if (assignee != null && !assignee.getId().equals(reporter.getId())) {
+            notificationService.notifyTaskAssigned(saved, reporter);
+        }
 
         return TaskResponse.fromEntity(saved);
     }
@@ -141,6 +147,8 @@ public class TaskService {
 
         log.debug("Updating task {} by user {}", id, currentUser.getEmail());
 
+        User oldAssignee = task.getAssignee();
+
         task.setTitle(request.getTitle());
         task.setDescription(request.getDescription());
         task.setDeadline(request.getDeadline());
@@ -151,13 +159,22 @@ public class TaskService {
 
         if (request.getAssigneeId() != null) {
             User newAssignee = userRepository.findById(request.getAssigneeId())
-                    .orElseThrow(() -> new ResourceNotFoundException("Usuário", "id", request.getAssigneeId()));
+                    .orElseThrow(() -> new ResourceNotFoundException("Usuario", "id", request.getAssigneeId()));
             validateUserAccessToProject(task.getProject(), newAssignee);
             task.setAssignee(newAssignee);
         }
 
         Task updated = taskRepository.save(task);
         log.info("Task {} updated successfully", id);
+
+        // Notify new assignee if changed
+        User newAssignee = updated.getAssignee();
+        boolean assigneeChanged = (oldAssignee == null && newAssignee != null) ||
+                (oldAssignee != null && newAssignee != null && !oldAssignee.getId().equals(newAssignee.getId()));
+        
+        if (assigneeChanged && newAssignee != null && !newAssignee.getId().equals(currentUser.getId())) {
+            notificationService.notifyTaskAssigned(updated, currentUser);
+        }
 
         return TaskResponse.fromEntity(updated);
     }
@@ -178,6 +195,7 @@ public class TaskService {
             // Award points for task completion
             User assignee = task.getAssignee();
             if (assignee != null) {
+                int previousLevel = assignee.getLevel();
                 boolean beforeDeadline = task.getDeadline() != null && 
                         LocalDate.now().isBefore(task.getDeadline());
                 int pointsAwarded = gamificationService.awardPointsForTaskCompletion(
@@ -186,6 +204,15 @@ public class TaskService {
                 
                 // Check for new badges
                 badgeService.checkAndAwardBadges(assignee);
+                
+                // Check for level up and notify
+                if (gamificationService.didUserLevelUp(assignee, previousLevel)) {
+                    notificationService.notifyLevelUp(
+                            assignee, 
+                            assignee.getLevel(), 
+                            gamificationService.getLevelName(assignee.getLevel())
+                    );
+                }
                 
                 log.info("Task {} completed by user {}. Points awarded: {}", 
                         id, assignee.getId(), pointsAwarded);
@@ -198,6 +225,17 @@ public class TaskService {
         }
 
         Task updated = taskRepository.save(task);
+        
+        // Send notification for status change
+        notificationService.notifyTaskStatusChanged(updated, currentUser);
+        
+        // Broadcast to project channel for real-time updates (kanban board)
+        notificationService.broadcastToProjectChannel(
+                task.getProject().getId(),
+                "TASK_STATUS_CHANGED",
+                TaskResponse.fromEntity(updated)
+        );
+        
         return TaskResponse.fromEntity(updated);
     }
 

@@ -31,6 +31,14 @@ public class BadgeService {
     private final UserRepository userRepository;
     private final CommentRepository commentRepository;
     private final ActivityLogRepository activityLogRepository;
+    
+    // Injected via setter to avoid circular dependency
+    private NotificationService notificationService;
+    
+    @org.springframework.beans.factory.annotation.Autowired
+    public void setNotificationService(NotificationService notificationService) {
+        this.notificationService = notificationService;
+    }
 
     // Badge codes
     public static final String BADGE_FIRST_TASK = "FIRST_TASK";
@@ -157,14 +165,19 @@ public class BadgeService {
         userBadgeRepository.save(userBadge);
 
         // Log badge earned
-        ActivityLog log = ActivityLog.builder()
+        ActivityLog activityLog = ActivityLog.builder()
                 .user(user)
                 .action(ActionType.USER_BADGE_EARNED)
                 .details("Badge conquistado: " + badge.getName())
                 .build();
-        activityLogRepository.save(log);
+        activityLogRepository.save(activityLog);
 
         BadgeService.log.info("User {} earned badge: {}", user.getId(), badgeCode);
+
+        // Send notification
+        if (notificationService != null) {
+            notificationService.notifyBadgeEarned(user, badge);
+        }
 
         return BadgeResponse.fromUserBadge(userBadge);
     }

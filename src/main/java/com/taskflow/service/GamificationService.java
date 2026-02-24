@@ -199,6 +199,21 @@ public class GamificationService {
         }
     }
 
+    /**
+     * Verifica se o usuario subiu de nivel apos ganhar pontos
+     */
+    public boolean didUserLevelUp(User user, int previousLevel) {
+        return user.getLevel() > previousLevel;
+    }
+
+    /**
+     * Retorna o nome do nivel atual
+     */
+    public String getLevelName(int level) {
+        LevelInfo info = LEVELS.get(level);
+        return info != null ? info.name : "Desconhecido";
+    }
+
     public RankingResponse getGlobalRanking(int limit) {
         List<User> topUsers = userRepository.findAllByOrderByTotalPointsDesc(PageRequest.of(0, limit));
         
