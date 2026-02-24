@@ -61,29 +61,25 @@ export function DashboardPage() {
       label: 'Pontos',
       value: profile?.totalPoints || user?.totalPoints || 0,
       icon: Trophy,
-      gradient: 'linear-gradient(180deg, #FFD54F 0%, #FF9800 100%)',
-      shadowColor: 'rgba(255, 152, 0, 0.4)',
+      sphereClass: 'icon-sphere-orange',
     },
     {
       label: 'Nivel',
       value: profile?.levelName || user?.levelName || 'Iniciante',
       icon: Zap,
-      gradient: 'linear-gradient(180deg, #4FC3F7 0%, #0288D1 100%)',
-      shadowColor: 'rgba(2, 136, 209, 0.4)',
+      sphereClass: 'icon-sphere',
     },
     {
       label: 'Tarefas',
       value: profile?.tasksCompleted || taskStats.done,
       icon: Target,
-      gradient: 'linear-gradient(180deg, #81C784 0%, #388E3C 100%)',
-      shadowColor: 'rgba(56, 142, 60, 0.4)',
+      sphereClass: 'icon-sphere-green',
     },
     {
       label: 'Streak',
       value: `${profile?.currentStreak || 0} dias`,
       icon: Flame,
-      gradient: 'linear-gradient(180deg, #FF8A65 0%, #E64A19 100%)',
-      shadowColor: 'rgba(230, 74, 25, 0.4)',
+      sphereClass: 'icon-sphere-orange',
     },
   ];
 
@@ -93,28 +89,28 @@ export function DashboardPage() {
       label: 'Projetos', 
       description: `${recentProjects.length} projeto${recentProjects.length !== 1 ? 's' : ''}`,
       to: '/projects',
-      gradient: 'linear-gradient(180deg, #4FC3F7 0%, #0288D1 100%)',
+      sphereClass: 'icon-sphere',
     },
     { 
       icon: CheckCircle2, 
       label: 'Tarefas', 
       description: `${taskStats.doing} em progresso`,
       to: '/tasks',
-      gradient: 'linear-gradient(180deg, #81C784 0%, #388E3C 100%)',
+      sphereClass: 'icon-sphere-green',
     },
     { 
       icon: TrendingUp, 
       label: 'Ranking', 
       description: 'Ver posicao no ranking',
       to: '/gamification',
-      gradient: 'linear-gradient(180deg, #FFD54F 0%, #FF9800 100%)',
+      sphereClass: 'icon-sphere-orange',
     },
     { 
       icon: Calendar, 
       label: 'Atividade', 
       description: 'Ver heatmap',
       to: '/gamification',
-      gradient: 'linear-gradient(180deg, #E879F9 0%, #A855F7 100%)',
+      sphereClass: 'icon-sphere-purple',
     },
   ];
 
@@ -122,8 +118,10 @@ export function DashboardPage() {
     return (
       <div className="flex items-center justify-center min-h-[400px]">
         <div className="text-center">
-          <Loader2 className="w-12 h-12 animate-spin mx-auto mb-4" style={{ color: '#0288D1' }} />
-          <p style={{ color: '#4a6fa5' }}>Carregando dashboard...</p>
+          <div className="icon-sphere w-16 h-16 mx-auto mb-4">
+            <Loader2 className="w-8 h-8 animate-spin text-white relative z-10" />
+          </div>
+          <p className="text-sky-700 font-medium">Carregando dashboard...</p>
         </div>
       </div>
     );
@@ -138,10 +136,10 @@ export function DashboardPage() {
     <div className="space-y-8">
       {/* Header */}
       <div>
-        <h1 className="text-3xl font-bold" style={{ color: '#1a365d' }}>
+        <h1 className="text-3xl font-bold text-sky-900">
           Dashboard
         </h1>
-        <p style={{ color: '#4a6fa5' }}>
+        <p className="text-sky-700">
           Bem-vindo de volta, {user?.name?.split(' ')[0]}!
         </p>
       </div>
@@ -151,23 +149,17 @@ export function DashboardPage() {
         {stats.map((stat, index) => (
           <div 
             key={index}
-            className="glass-card p-5 lg:p-6 hover:scale-105 transition-transform duration-300"
+            className="stat-card hover:scale-105 transition-transform duration-300"
           >
             <div className="flex items-center gap-3 lg:gap-4">
-              <div 
-                className="w-12 h-12 lg:w-14 lg:h-14 rounded-2xl flex items-center justify-center flex-shrink-0"
-                style={{
-                  background: stat.gradient,
-                  boxShadow: `0 6px 20px ${stat.shadowColor}`,
-                }}
-              >
-                <stat.icon className="w-6 h-6 lg:w-7 lg:h-7 text-white" />
+              <div className={`${stat.sphereClass} w-12 h-12 lg:w-14 lg:h-14 flex-shrink-0`}>
+                <stat.icon className="w-6 h-6 lg:w-7 lg:h-7 text-white relative z-10" />
               </div>
               <div className="min-w-0">
-                <p className="text-xs lg:text-sm font-medium mb-1 truncate" style={{ color: '#4a6fa5' }}>
+                <p className="text-xs lg:text-sm font-medium mb-1 truncate text-sky-600">
                   {stat.label}
                 </p>
-                <p className="text-xl lg:text-2xl font-bold truncate" style={{ color: '#1a365d' }}>
+                <p className="text-xl lg:text-2xl font-bold truncate text-sky-900">
                   {typeof stat.value === 'number' ? stat.value.toLocaleString() : stat.value}
                 </p>
               </div>
@@ -176,26 +168,31 @@ export function DashboardPage() {
         ))}
       </div>
 
-      {/* Welcome Banner */}
+      {/* Welcome Banner - Glossy Aero style */}
       <div 
         className="rounded-3xl p-6 lg:p-8 relative overflow-hidden"
         style={{
-          background: 'linear-gradient(135deg, #0288D1 0%, #00ACC1 50%, #26A69A 100%)',
-          boxShadow: '0 12px 40px rgba(2, 136, 209, 0.3)',
+          background: 'linear-gradient(135deg, #38bdf8 0%, #0ea5e9 30%, #0284c7 70%, #0369a1 100%)',
+          boxShadow: '0 12px 40px rgba(14, 165, 233, 0.4), inset 0 2px 0 rgba(255,255,255,0.3)',
+          border: '1px solid rgba(255,255,255,0.3)',
         }}
       >
+        {/* Glossy overlay */}
         <div 
-          className="absolute top-0 left-0 right-0 h-1/2 opacity-20"
+          className="absolute top-0 left-0 right-0 h-1/2 pointer-events-none"
           style={{
-            background: 'linear-gradient(180deg, rgba(255,255,255,0.4) 0%, transparent 100%)',
+            background: 'linear-gradient(180deg, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0) 100%)',
+            borderRadius: '24px 24px 50% 50%',
           }}
         />
         
-        <div className="absolute top-4 right-8 w-20 h-20 rounded-full bg-white/10" />
-        <div className="absolute bottom-4 right-24 w-12 h-12 rounded-full bg-white/10" />
+        {/* Decorative bubbles */}
+        <div className="absolute top-6 right-12 w-16 h-16 rounded-full bg-white/15" />
+        <div className="absolute bottom-6 right-32 w-10 h-10 rounded-full bg-white/10" />
+        <div className="absolute top-1/2 right-48 w-6 h-6 rounded-full bg-white/20" />
 
         <div className="relative z-10">
-          <h2 className="text-xl lg:text-2xl font-bold text-white mb-2">
+          <h2 className="text-xl lg:text-2xl font-bold text-white mb-2" style={{ textShadow: '0 2px 4px rgba(0,0,0,0.2)' }}>
             Continue sua jornada!
           </h2>
           <p className="text-white/90 max-w-2xl mb-4 text-sm lg:text-base">
@@ -203,19 +200,16 @@ export function DashboardPage() {
             Continue completando tarefas para subir de nivel e desbloquear badges!
           </p>
           
-          {/* Progress bar */}
+          {/* Progress bar - Aero style */}
           <div className="max-w-md">
-            <div className="flex justify-between text-sm text-white/80 mb-1">
-              <span>{(profile?.totalPoints || user?.totalPoints || 0).toLocaleString()} pontos</span>
+            <div className="flex justify-between text-sm text-white/80 mb-2">
+              <span className="font-medium">{(profile?.totalPoints || user?.totalPoints || 0).toLocaleString()} pontos</span>
               <span>{profile?.pointsToNextLevel ? `${profile.pointsToNextLevel} para proximo nivel` : 'Proximo nivel'}</span>
             </div>
-            <div className="h-3 rounded-full bg-white/20 overflow-hidden">
+            <div className="progress-aero h-4">
               <div 
-                className="h-full rounded-full transition-all duration-500"
-                style={{
-                  width: `${pointsProgress}%`,
-                  background: 'linear-gradient(90deg, #FFD54F 0%, #FF9800 100%)',
-                }}
+                className="progress-aero-fill transition-all duration-500"
+                style={{ width: `${pointsProgress}%` }}
               />
             </div>
           </div>
@@ -224,51 +218,36 @@ export function DashboardPage() {
 
       {/* Task Summary */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-        <div className="glass-card p-5">
+        <div className="stat-card">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm font-medium" style={{ color: '#4a6fa5' }}>A Fazer</p>
-              <p className="text-3xl font-bold" style={{ color: '#1a365d' }}>{taskStats.todo}</p>
+              <p className="text-sm font-medium text-sky-600">A Fazer</p>
+              <p className="text-3xl font-bold text-sky-900">{taskStats.todo}</p>
             </div>
-            <div 
-              className="w-12 h-12 rounded-xl flex items-center justify-center"
-              style={{
-                background: 'linear-gradient(180deg, #90CAF9 0%, #42A5F5 100%)',
-              }}
-            >
-              <CheckCircle2 className="w-6 h-6 text-white" />
+            <div className="icon-sphere w-12 h-12">
+              <CheckCircle2 className="w-6 h-6 text-white relative z-10" />
             </div>
           </div>
         </div>
-        <div className="glass-card p-5">
+        <div className="stat-card">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm font-medium" style={{ color: '#4a6fa5' }}>Em Progresso</p>
-              <p className="text-3xl font-bold" style={{ color: '#FF9800' }}>{taskStats.doing}</p>
+              <p className="text-sm font-medium text-sky-600">Em Progresso</p>
+              <p className="text-3xl font-bold text-amber-500">{taskStats.doing}</p>
             </div>
-            <div 
-              className="w-12 h-12 rounded-xl flex items-center justify-center"
-              style={{
-                background: 'linear-gradient(180deg, #FFD54F 0%, #FF9800 100%)',
-              }}
-            >
-              <Loader2 className="w-6 h-6 text-white" />
+            <div className="icon-sphere-orange w-12 h-12">
+              <Loader2 className="w-6 h-6 text-white relative z-10" />
             </div>
           </div>
         </div>
-        <div className="glass-card p-5">
+        <div className="stat-card">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm font-medium" style={{ color: '#4a6fa5' }}>Concluidas</p>
-              <p className="text-3xl font-bold" style={{ color: '#4CAF50' }}>{taskStats.done}</p>
+              <p className="text-sm font-medium text-sky-600">Concluidas</p>
+              <p className="text-3xl font-bold text-emerald-500">{taskStats.done}</p>
             </div>
-            <div 
-              className="w-12 h-12 rounded-xl flex items-center justify-center"
-              style={{
-                background: 'linear-gradient(180deg, #81C784 0%, #388E3C 100%)',
-              }}
-            >
-              <CheckCircle2 className="w-6 h-6 text-white" />
+            <div className="icon-sphere-green w-12 h-12">
+              <CheckCircle2 className="w-6 h-6 text-white relative z-10" />
             </div>
           </div>
         </div>
@@ -276,7 +255,7 @@ export function DashboardPage() {
 
       {/* Quick Actions */}
       <div>
-        <h2 className="text-xl font-bold mb-4" style={{ color: '#1a365d' }}>
+        <h2 className="text-xl font-bold mb-4 text-sky-900">
           Acesso Rapido
         </h2>
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
@@ -284,24 +263,18 @@ export function DashboardPage() {
             <Link
               key={index}
               to={action.to}
-              className="glass-card p-5 hover:scale-105 transition-all duration-300 group"
+              className="stat-card hover:scale-105 transition-all duration-300 group"
             >
-              <div 
-                className="w-12 h-12 rounded-xl flex items-center justify-center mb-3"
-                style={{
-                  background: action.gradient,
-                  boxShadow: '0 4px 15px rgba(0,0,0,0.1)',
-                }}
-              >
-                <action.icon className="w-6 h-6 text-white" />
+              <div className={`${action.sphereClass} w-12 h-12 mb-3`}>
+                <action.icon className="w-6 h-6 text-white relative z-10" />
               </div>
-              <h3 className="font-bold mb-1" style={{ color: '#1a365d' }}>
+              <h3 className="font-bold mb-1 text-sky-900">
                 {action.label}
               </h3>
-              <p className="text-sm mb-2" style={{ color: '#4a6fa5' }}>
+              <p className="text-sm mb-2 text-sky-600">
                 {action.description}
               </p>
-              <div className="flex items-center gap-1 text-sm font-medium group-hover:gap-2 transition-all" style={{ color: '#0288D1' }}>
+              <div className="flex items-center gap-1 text-sm font-semibold group-hover:gap-2 transition-all text-sky-500">
                 <span>Acessar</span>
                 <ArrowRight className="w-4 h-4" />
               </div>
@@ -314,51 +287,60 @@ export function DashboardPage() {
       {recentTasks.length > 0 && (
         <div>
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-xl font-bold" style={{ color: '#1a365d' }}>
+            <h2 className="text-xl font-bold text-sky-900">
               Tarefas Recentes
             </h2>
             <Link 
               to="/tasks" 
-              className="text-sm font-medium flex items-center gap-1 hover:gap-2 transition-all"
-              style={{ color: '#0288D1' }}
+              className="text-sm font-semibold flex items-center gap-1 hover:gap-2 transition-all text-sky-500"
             >
               Ver todas <ArrowRight className="w-4 h-4" />
             </Link>
           </div>
-          <div className="glass-card divide-y divide-white/20">
+          <div className="glass-card divide-y divide-sky-200/50">
             {recentTasks.map((task) => (
               <div key={task.id} className="p-4 flex items-center gap-4">
                 <div 
                   className={`w-3 h-3 rounded-full flex-shrink-0`}
                   style={{
                     background: task.status === 'DONE' 
-                      ? '#4CAF50' 
+                      ? 'linear-gradient(180deg, #4ade80 0%, #22c55e 100%)' 
                       : task.status === 'DOING' 
-                      ? '#FF9800' 
-                      : '#4a6fa5',
+                      ? 'linear-gradient(180deg, #fbbf24 0%, #f59e0b 100%)' 
+                      : 'linear-gradient(180deg, #38bdf8 0%, #0ea5e9 100%)',
+                    boxShadow: task.status === 'DONE' 
+                      ? '0 2px 8px rgba(34, 197, 94, 0.5)' 
+                      : task.status === 'DOING' 
+                      ? '0 2px 8px rgba(245, 158, 11, 0.5)' 
+                      : '0 2px 8px rgba(14, 165, 233, 0.5)',
                   }}
                 />
                 <div className="flex-1 min-w-0">
-                  <p className="font-medium truncate" style={{ color: '#1a365d' }}>
+                  <p className="font-semibold truncate text-sky-900">
                     {task.title}
                   </p>
-                  <p className="text-sm truncate" style={{ color: '#4a6fa5' }}>
+                  <p className="text-sm truncate text-sky-600">
                     {task.project.name}
                   </p>
                 </div>
                 <span 
-                  className="text-xs px-2 py-1 rounded-full flex-shrink-0"
+                  className="badge-aero flex-shrink-0"
                   style={{
                     background: task.status === 'DONE' 
-                      ? 'rgba(76, 175, 80, 0.15)' 
+                      ? 'linear-gradient(180deg, rgba(74, 222, 128, 0.3) 0%, rgba(34, 197, 94, 0.2) 100%)' 
                       : task.status === 'DOING' 
-                      ? 'rgba(255, 152, 0, 0.15)' 
-                      : 'rgba(74, 111, 165, 0.15)',
+                      ? 'linear-gradient(180deg, rgba(251, 191, 36, 0.3) 0%, rgba(245, 158, 11, 0.2) 100%)' 
+                      : 'linear-gradient(180deg, rgba(56, 189, 248, 0.3) 0%, rgba(14, 165, 233, 0.2) 100%)',
                     color: task.status === 'DONE' 
-                      ? '#4CAF50' 
+                      ? '#16a34a' 
                       : task.status === 'DOING' 
-                      ? '#FF9800' 
-                      : '#4a6fa5',
+                      ? '#d97706' 
+                      : '#0284c7',
+                    border: task.status === 'DONE' 
+                      ? '1px solid rgba(34, 197, 94, 0.4)' 
+                      : task.status === 'DOING' 
+                      ? '1px solid rgba(245, 158, 11, 0.4)' 
+                      : '1px solid rgba(14, 165, 233, 0.4)',
                   }}
                 >
                   {task.status === 'DONE' ? 'Concluido' : task.status === 'DOING' ? 'Em Progresso' : 'A Fazer'}

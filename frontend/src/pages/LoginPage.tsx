@@ -83,8 +83,11 @@ export function LoginPage() {
           </div>
 
           {/* Glass Card */}
-          <div className="glass-card p-8">
-            <div className="text-center mb-6">
+          <div className="glass-card p-8 relative overflow-hidden">
+            {/* Glossy highlight at top */}
+            <div className="absolute top-0 left-4 right-4 h-12 bg-gradient-to-b from-white/50 to-transparent rounded-t-3xl pointer-events-none" />
+            
+            <div className="text-center mb-6 relative z-10">
               <h2 
                 className="text-2xl font-bold mb-1"
                 style={{ color: '#1a365d' }}
@@ -98,7 +101,7 @@ export function LoginPage() {
 
             {error && (
               <div 
-                className="mb-6 p-4 rounded-xl flex items-center gap-3"
+                className="mb-6 p-4 rounded-xl flex items-center gap-3 relative z-10"
                 style={{
                   background: 'linear-gradient(135deg, rgba(254,202,202,0.8) 0%, rgba(254,178,178,0.6) 100%)',
                   border: '1px solid rgba(239,68,68,0.3)',
@@ -109,7 +112,7 @@ export function LoginPage() {
               </div>
             )}
 
-            <form onSubmit={handleSubmit} className="space-y-5">
+            <form onSubmit={handleSubmit} className="space-y-5 relative z-10">
               <div>
                 <label 
                   className="block text-sm font-semibold mb-2"
@@ -190,7 +193,7 @@ export function LoginPage() {
               </button>
             </form>
 
-            <div className="mt-8 text-center">
+            <div className="mt-8 text-center relative z-10">
               <span style={{ color: '#4a6fa5' }}>Nao tem uma conta? </span>
               <Link
                 to="/register"

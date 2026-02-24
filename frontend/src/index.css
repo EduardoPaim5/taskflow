@@ -10,137 +10,285 @@
 }
 
 @layer components {
-  /* Frutiger Aero Glass Card */
+  /* ====== FRUTIGER AERO CLASSIC STYLES (2004-2013) ====== */
+  
+  /* Main Glass Card - Glossy aqua glass effect */
   .glass-card {
-    @apply relative rounded-2xl;
+    @apply relative rounded-3xl;
     background: linear-gradient(
-      135deg,
-      rgba(255, 255, 255, 0.7) 0%,
-      rgba(255, 255, 255, 0.4) 100%
+      180deg,
+      rgba(255, 255, 255, 0.85) 0%,
+      rgba(220, 240, 255, 0.6) 50%,
+      rgba(180, 220, 255, 0.4) 100%
     );
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    border: 1px solid rgba(255, 255, 255, 0.6);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 2px solid rgba(255, 255, 255, 0.8);
     box-shadow: 
-      0 8px 32px 0 rgba(31, 38, 135, 0.15),
-      inset 0 1px 1px rgba(255, 255, 255, 0.8);
+      0 8px 32px 0 rgba(0, 100, 180, 0.2),
+      0 0 0 1px rgba(0, 150, 255, 0.1),
+      inset 0 2px 0 rgba(255, 255, 255, 0.9),
+      inset 0 -2px 8px rgba(0, 150, 220, 0.1);
   }
 
+  /* Top glossy highlight */
   .glass-card::before {
     content: '';
     position: absolute;
     top: 0;
-    left: 0;
-    right: 0;
-    height: 1px;
+    left: 8px;
+    right: 8px;
+    height: 50%;
+    border-radius: 24px 24px 100% 100%;
     background: linear-gradient(
-      90deg,
-      transparent,
-      rgba(255, 255, 255, 0.8),
-      transparent
+      180deg,
+      rgba(255, 255, 255, 0.6) 0%,
+      rgba(255, 255, 255, 0) 100%
     );
+    pointer-events: none;
   }
 
-  /* Aero Button */
+  /* Aero Button - Classic glossy bubble style */
   .btn-aero {
-    @apply relative inline-flex items-center justify-center px-6 py-3 rounded-xl font-semibold transition-all duration-300;
-    background: linear-gradient(180deg, #4FC3F7 0%, #0288D1 100%);
+    @apply relative inline-flex items-center justify-center px-6 py-3 rounded-2xl font-semibold transition-all duration-200;
+    background: linear-gradient(
+      180deg, 
+      #7dd3fc 0%,
+      #38bdf8 20%,
+      #0ea5e9 50%,
+      #0284c7 80%,
+      #0369a1 100%
+    );
     color: white;
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
     box-shadow: 
-      0 4px 15px rgba(2, 136, 209, 0.4),
-      inset 0 1px 1px rgba(255, 255, 255, 0.4),
-      inset 0 -1px 1px rgba(0, 0, 0, 0.1);
+      0 6px 20px rgba(2, 132, 199, 0.5),
+      0 2px 4px rgba(0, 0, 0, 0.2),
+      inset 0 2px 0 rgba(255, 255, 255, 0.4),
+      inset 0 -2px 4px rgba(0, 0, 0, 0.15);
     border: 1px solid rgba(255, 255, 255, 0.3);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  }
+
+  /* Glossy top reflection */
+  .btn-aero::before {
+    content: '';
+    position: absolute;
+    top: 2px;
+    left: 10%;
+    right: 10%;
+    height: 40%;
+    border-radius: 16px 16px 50% 50%;
+    background: linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.5) 0%,
+      rgba(255, 255, 255, 0) 100%
+    );
+    pointer-events: none;
   }
 
   .btn-aero:hover {
     transform: translateY(-2px);
     box-shadow: 
-      0 6px 20px rgba(2, 136, 209, 0.5),
-      inset 0 1px 1px rgba(255, 255, 255, 0.5),
-      inset 0 -1px 1px rgba(0, 0, 0, 0.1);
+      0 8px 25px rgba(2, 132, 199, 0.6),
+      0 4px 8px rgba(0, 0, 0, 0.2),
+      inset 0 2px 0 rgba(255, 255, 255, 0.5),
+      inset 0 -2px 4px rgba(0, 0, 0, 0.15);
   }
 
   .btn-aero:active {
-    transform: translateY(0);
+    transform: translateY(1px);
     box-shadow: 
-      0 2px 10px rgba(2, 136, 209, 0.3),
-      inset 0 1px 1px rgba(255, 255, 255, 0.3),
-      inset 0 -1px 1px rgba(0, 0, 0, 0.1);
+      0 2px 10px rgba(2, 132, 199, 0.4),
+      inset 0 2px 4px rgba(0, 0, 0, 0.2);
   }
 
   .btn-aero:disabled {
-    @apply opacity-60 cursor-not-allowed;
+    @apply opacity-50 cursor-not-allowed;
     transform: none;
   }
 
-  /* Aero Green Button */
+  /* Green Aero Button */
   .btn-aero-green {
     @apply btn-aero;
-    background: linear-gradient(180deg, #81C784 0%, #388E3C 100%);
+    background: linear-gradient(
+      180deg, 
+      #86efac 0%,
+      #4ade80 20%,
+      #22c55e 50%,
+      #16a34a 80%,
+      #15803d 100%
+    );
     box-shadow: 
-      0 4px 15px rgba(56, 142, 60, 0.4),
-      inset 0 1px 1px rgba(255, 255, 255, 0.4),
-      inset 0 -1px 1px rgba(0, 0, 0, 0.1);
+      0 6px 20px rgba(22, 163, 74, 0.5),
+      0 2px 4px rgba(0, 0, 0, 0.2),
+      inset 0 2px 0 rgba(255, 255, 255, 0.4),
+      inset 0 -2px 4px rgba(0, 0, 0, 0.15);
   }
 
   .btn-aero-green:hover {
     box-shadow: 
-      0 6px 20px rgba(56, 142, 60, 0.5),
-      inset 0 1px 1px rgba(255, 255, 255, 0.5),
-      inset 0 -1px 1px rgba(0, 0, 0, 0.1);
+      0 8px 25px rgba(22, 163, 74, 0.6),
+      0 4px 8px rgba(0, 0, 0, 0.2),
+      inset 0 2px 0 rgba(255, 255, 255, 0.5),
+      inset 0 -2px 4px rgba(0, 0, 0, 0.15);
   }
 
-  /* Aero Input */
+  /* Orange/Amber Aero Button */
+  .btn-aero-orange {
+    @apply btn-aero;
+    background: linear-gradient(
+      180deg, 
+      #fed7aa 0%,
+      #fdba74 20%,
+      #fb923c 50%,
+      #f97316 80%,
+      #ea580c 100%
+    );
+    box-shadow: 
+      0 6px 20px rgba(249, 115, 22, 0.5),
+      0 2px 4px rgba(0, 0, 0, 0.2),
+      inset 0 2px 0 rgba(255, 255, 255, 0.4),
+      inset 0 -2px 4px rgba(0, 0, 0, 0.15);
+  }
+
+  /* Aero Input - Glossy inset style */
   .input-aero {
-    @apply w-full px-4 py-3 rounded-xl transition-all duration-300;
+    @apply w-full px-4 py-3 rounded-2xl transition-all duration-200;
     background: linear-gradient(
       180deg,
-      rgba(255, 255, 255, 0.9) 0%,
-      rgba(255, 255, 255, 0.7) 100%
+      rgba(240, 250, 255, 0.95) 0%,
+      rgba(255, 255, 255, 0.98) 100%
     );
-    border: 1px solid rgba(255, 255, 255, 0.8);
+    border: 2px solid rgba(150, 200, 255, 0.5);
     box-shadow: 
-      inset 0 2px 4px rgba(0, 0, 0, 0.06),
-      0 1px 0 rgba(255, 255, 255, 0.8);
-    color: #1a365d;
+      inset 0 3px 6px rgba(0, 80, 150, 0.1),
+      inset 0 1px 2px rgba(0, 0, 0, 0.05),
+      0 1px 0 rgba(255, 255, 255, 0.9);
+    color: #1e3a5f;
   }
 
   .input-aero::placeholder {
-    color: #718096;
+    color: #64a5d1;
   }
 
   .input-aero:focus {
     outline: none;
-    border-color: #4FC3F7;
-    box-shadow: 
-      inset 0 2px 4px rgba(0, 0, 0, 0.06),
-      0 0 0 3px rgba(79, 195, 247, 0.3),
-      0 1px 0 rgba(255, 255, 255, 0.8);
-  }
-
-  /* Aero Badge */
-  .badge-aero {
-    @apply inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold;
+    border-color: #38bdf8;
     background: linear-gradient(
       180deg,
-      rgba(255, 255, 255, 0.8) 0%,
-      rgba(255, 255, 255, 0.5) 100%
+      rgba(230, 245, 255, 1) 0%,
+      rgba(255, 255, 255, 1) 100%
     );
-    border: 1px solid rgba(255, 255, 255, 0.6);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    color: #2d3748;
+    box-shadow: 
+      inset 0 3px 6px rgba(0, 80, 150, 0.15),
+      0 0 0 4px rgba(56, 189, 248, 0.25),
+      0 0 20px rgba(56, 189, 248, 0.2);
   }
 
-  /* Floating orbs (decorative) */
+  /* Aero Badge - Glossy pill */
+  .badge-aero {
+    @apply inline-flex items-center px-4 py-1.5 rounded-full text-xs font-bold;
+    background: linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.95) 0%,
+      rgba(220, 240, 255, 0.8) 100%
+    );
+    border: 1px solid rgba(100, 180, 255, 0.4);
+    box-shadow: 
+      0 2px 8px rgba(0, 100, 180, 0.15),
+      inset 0 1px 0 rgba(255, 255, 255, 0.9);
+    color: #0369a1;
+  }
+
+  /* Aero Sidebar - Classic aqua glass panel */
+  .aero-sidebar {
+    @apply rounded-3xl;
+    background: linear-gradient(
+      180deg,
+      rgba(200, 230, 255, 0.9) 0%,
+      rgba(150, 210, 255, 0.7) 30%,
+      rgba(100, 190, 250, 0.6) 70%,
+      rgba(80, 170, 240, 0.7) 100%
+    );
+    backdrop-filter: blur(20px);
+    border: 2px solid rgba(255, 255, 255, 0.7);
+    box-shadow: 
+      0 10px 40px rgba(0, 100, 180, 0.3),
+      inset 0 2px 0 rgba(255, 255, 255, 0.8),
+      inset 0 -2px 10px rgba(0, 100, 180, 0.1);
+  }
+
+  /* Sidebar glossy top */
+  .aero-sidebar::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 8px;
+    right: 8px;
+    height: 40%;
+    border-radius: 24px 24px 50% 50%;
+    background: linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.4) 0%,
+      rgba(255, 255, 255, 0) 100%
+    );
+    pointer-events: none;
+  }
+
+  /* Nav item - Active state with glow */
+  .nav-item-active {
+    background: linear-gradient(
+      180deg, 
+      #7dd3fc 0%,
+      #38bdf8 30%,
+      #0ea5e9 70%,
+      #0284c7 100%
+    );
+    box-shadow: 
+      0 4px 15px rgba(14, 165, 233, 0.5),
+      inset 0 1px 0 rgba(255, 255, 255, 0.4),
+      inset 0 -1px 3px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+  }
+
+  /* Floating orbs - Aero style bubbles */
   .orb {
-    @apply absolute rounded-full opacity-60;
-    filter: blur(40px);
-    animation: float 6s ease-in-out infinite;
+    @apply absolute rounded-full;
+    filter: blur(60px);
+    animation: float 8s ease-in-out infinite;
   }
 
-  /* Shine effect */
+  .orb-blue {
+    background: radial-gradient(circle, rgba(56, 189, 248, 0.6) 0%, rgba(14, 165, 233, 0.3) 100%);
+  }
+
+  .orb-green {
+    background: radial-gradient(circle, rgba(74, 222, 128, 0.5) 0%, rgba(34, 197, 94, 0.2) 100%);
+  }
+
+  .orb-cyan {
+    background: radial-gradient(circle, rgba(34, 211, 238, 0.5) 0%, rgba(6, 182, 212, 0.2) 100%);
+  }
+
+  /* Bubble decorations */
+  .bubble {
+    @apply absolute rounded-full;
+    background: radial-gradient(
+      circle at 30% 30%,
+      rgba(255, 255, 255, 0.9) 0%,
+      rgba(200, 230, 255, 0.6) 30%,
+      rgba(100, 180, 255, 0.3) 70%,
+      rgba(50, 150, 255, 0.2) 100%
+    );
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    box-shadow: 
+      inset 0 -5px 10px rgba(0, 100, 200, 0.1),
+      0 2px 10px rgba(0, 100, 200, 0.2);
+    animation: bubble-float 6s ease-in-out infinite;
+  }
+
+  /* Shine/Gloss effect overlay */
   .shine {
     @apply relative overflow-hidden;
   }
@@ -148,28 +296,206 @@
   .shine::after {
     content: '';
     position: absolute;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 50%;
+    border-radius: inherit;
     background: linear-gradient(
-      45deg,
-      transparent 30%,
-      rgba(255, 255, 255, 0.3) 50%,
-      transparent 70%
+      180deg,
+      rgba(255, 255, 255, 0.3) 0%,
+      rgba(255, 255, 255, 0) 100%
     );
-    transform: rotate(45deg);
-    animation: shimmer 3s ease-in-out infinite;
+    pointer-events: none;
   }
 
-  @keyframes shimmer {
-    0% { transform: translateX(-100%) rotate(45deg); }
-    100% { transform: translateX(100%) rotate(45deg); }
+  /* Progress bar - Glossy style */
+  .progress-aero {
+    @apply rounded-full overflow-hidden;
+    background: linear-gradient(
+      180deg,
+      rgba(200, 220, 240, 0.8) 0%,
+      rgba(180, 200, 220, 0.6) 100%
+    );
+    box-shadow: 
+      inset 0 2px 4px rgba(0, 50, 100, 0.2),
+      0 1px 0 rgba(255, 255, 255, 0.5);
   }
 
+  .progress-aero-fill {
+    @apply h-full rounded-full;
+    background: linear-gradient(
+      180deg,
+      #7dd3fc 0%,
+      #38bdf8 30%,
+      #0ea5e9 70%,
+      #0284c7 100%
+    );
+    box-shadow: 
+      inset 0 1px 0 rgba(255, 255, 255, 0.5),
+      0 0 10px rgba(14, 165, 233, 0.5);
+  }
+
+  /* Card with aqua glow border */
+  .card-aero-glow {
+    @apply rounded-3xl p-1;
+    background: linear-gradient(
+      135deg,
+      rgba(100, 200, 255, 0.6) 0%,
+      rgba(50, 180, 255, 0.3) 50%,
+      rgba(100, 200, 255, 0.6) 100%
+    );
+    box-shadow: 
+      0 0 20px rgba(50, 180, 255, 0.3),
+      0 10px 40px rgba(0, 100, 180, 0.2);
+  }
+
+  .card-aero-glow > * {
+    @apply rounded-[20px];
+    background: linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.95) 0%,
+      rgba(240, 250, 255, 0.9) 100%
+    );
+  }
+
+  /* Kanban column header */
+  .kanban-header {
+    @apply rounded-2xl px-4 py-2;
+    background: linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.9) 0%,
+      rgba(220, 240, 255, 0.7) 100%
+    );
+    border: 1px solid rgba(150, 200, 255, 0.5);
+    box-shadow: 
+      0 2px 8px rgba(0, 100, 180, 0.1),
+      inset 0 1px 0 rgba(255, 255, 255, 0.9);
+  }
+
+  /* Task card in kanban */
+  .task-card {
+    @apply rounded-2xl p-4;
+    background: linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.98) 0%,
+      rgba(245, 252, 255, 0.95) 100%
+    );
+    border: 1px solid rgba(180, 220, 255, 0.6);
+    box-shadow: 
+      0 4px 12px rgba(0, 80, 150, 0.1),
+      inset 0 1px 0 rgba(255, 255, 255, 1);
+    transition: all 0.2s ease;
+  }
+
+  .task-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 
+      0 8px 20px rgba(0, 80, 150, 0.15),
+      inset 0 1px 0 rgba(255, 255, 255, 1);
+    border-color: rgba(100, 180, 255, 0.8);
+  }
+
+  /* Stat card with icon */
+  .stat-card {
+    @apply rounded-3xl p-6;
+    background: linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.9) 0%,
+      rgba(230, 245, 255, 0.8) 100%
+    );
+    border: 2px solid rgba(180, 220, 255, 0.6);
+    box-shadow: 
+      0 8px 24px rgba(0, 100, 180, 0.12),
+      inset 0 2px 0 rgba(255, 255, 255, 0.9);
+  }
+
+  /* Icon container - Glossy sphere */
+  .icon-sphere {
+    @apply rounded-full flex items-center justify-center;
+    background: linear-gradient(
+      180deg, 
+      #7dd3fc 0%,
+      #38bdf8 30%,
+      #0ea5e9 70%,
+      #0284c7 100%
+    );
+    box-shadow: 
+      0 4px 15px rgba(14, 165, 233, 0.4),
+      inset 0 2px 0 rgba(255, 255, 255, 0.4),
+      inset 0 -2px 4px rgba(0, 0, 0, 0.1);
+    position: relative;
+  }
+
+  .icon-sphere::before {
+    content: '';
+    position: absolute;
+    top: 15%;
+    left: 20%;
+    width: 30%;
+    height: 30%;
+    border-radius: 50%;
+    background: radial-gradient(
+      circle,
+      rgba(255, 255, 255, 0.8) 0%,
+      rgba(255, 255, 255, 0) 100%
+    );
+  }
+
+  .icon-sphere-green {
+    background: linear-gradient(
+      180deg, 
+      #86efac 0%,
+      #4ade80 30%,
+      #22c55e 70%,
+      #16a34a 100%
+    );
+    box-shadow: 
+      0 4px 15px rgba(34, 197, 94, 0.4),
+      inset 0 2px 0 rgba(255, 255, 255, 0.4),
+      inset 0 -2px 4px rgba(0, 0, 0, 0.1);
+  }
+
+  .icon-sphere-orange {
+    background: linear-gradient(
+      180deg, 
+      #fed7aa 0%,
+      #fdba74 30%,
+      #fb923c 70%,
+      #f97316 100%
+    );
+    box-shadow: 
+      0 4px 15px rgba(249, 115, 22, 0.4),
+      inset 0 2px 0 rgba(255, 255, 255, 0.4),
+      inset 0 -2px 4px rgba(0, 0, 0, 0.1);
+  }
+
+  .icon-sphere-purple {
+    background: linear-gradient(
+      180deg, 
+      #d8b4fe 0%,
+      #c084fc 30%,
+      #a855f7 70%,
+      #9333ea 100%
+    );
+    box-shadow: 
+      0 4px 15px rgba(168, 85, 247, 0.4),
+      inset 0 2px 0 rgba(255, 255, 255, 0.4),
+      inset 0 -2px 4px rgba(0, 0, 0, 0.1);
+  }
+
+  /* ====== ANIMATIONS ====== */
+  
   @keyframes float {
     0%, 100% { transform: translateY(0px) scale(1); }
-    50% { transform: translateY(-20px) scale(1.05); }
+    50% { transform: translateY(-30px) scale(1.05); }
+  }
+
+  @keyframes bubble-float {
+    0%, 100% { transform: translateY(0px) translateX(0px); }
+    25% { transform: translateY(-10px) translateX(5px); }
+    50% { transform: translateY(-5px) translateX(-5px); }
+    75% { transform: translateY(-15px) translateX(3px); }
   }
 
   @keyframes slide-in {
@@ -183,7 +509,48 @@
     }
   }
 
+  @keyframes glow-pulse {
+    0%, 100% { box-shadow: 0 0 20px rgba(56, 189, 248, 0.3); }
+    50% { box-shadow: 0 0 40px rgba(56, 189, 248, 0.6); }
+  }
+
   .animate-slide-in {
     animation: slide-in 0.3s ease-out forwards;
+  }
+
+  .animate-glow {
+    animation: glow-pulse 2s ease-in-out infinite;
+  }
+
+  /* ====== SCROLLBAR STYLING ====== */
+  
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: rgba(200, 230, 255, 0.3);
+    border-radius: 10px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: linear-gradient(
+      180deg,
+      #7dd3fc 0%,
+      #38bdf8 50%,
+      #0ea5e9 100%
+    );
+    border-radius: 10px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(
+      180deg,
+      #38bdf8 0%,
+      #0ea5e9 50%,
+      #0284c7 100%
+    );
   }
 }

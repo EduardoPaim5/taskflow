@@ -44,10 +44,25 @@ const columns: { id: TaskStatus; label: string; icon: typeof Circle; color: stri
   },
 ];
 
-const priorityConfig: Record<TaskPriority, { label: string; color: string; bg: string }> = {
-  LOW: { label: 'Baixa', color: '#4CAF50', bg: 'rgba(76, 175, 80, 0.15)' },
-  MEDIUM: { label: 'Media', color: '#FF9800', bg: 'rgba(255, 152, 0, 0.15)' },
-  HIGH: { label: 'Alta', color: '#F44336', bg: 'rgba(244, 67, 54, 0.15)' },
+const priorityConfig: Record<TaskPriority, { label: string; color: string; bg: string; gradient: string }> = {
+  LOW: { 
+    label: 'Baixa', 
+    color: '#fff', 
+    bg: 'rgba(76, 175, 80, 0.15)',
+    gradient: 'linear-gradient(180deg, #81C784 0%, #388E3C 100%)'
+  },
+  MEDIUM: { 
+    label: 'Media', 
+    color: '#fff', 
+    bg: 'rgba(255, 152, 0, 0.15)',
+    gradient: 'linear-gradient(180deg, #FFD54F 0%, #FF9800 100%)'
+  },
+  HIGH: { 
+    label: 'Alta', 
+    color: '#fff', 
+    bg: 'rgba(244, 67, 54, 0.15)',
+    gradient: 'linear-gradient(180deg, #EF5350 0%, #D32F2F 100%)'
+  },
 };
 
 export function TasksPage() {
@@ -330,18 +345,23 @@ export function TasksPage() {
       {/* Kanban Board */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 relative z-10">
         {columns.map((column) => (
-          <div
-            key={column.id}
-            onDragOver={handleDragOver}
-            onDrop={() => handleDrop(column.id)}
-            className="glass-card p-4 min-h-[500px]"
-          >
-            {/* Column Header */}
-            <div className="flex items-center gap-3 mb-4 pb-3 border-b border-white/30">
+            <div
+              key={column.id}
+              onDragOver={handleDragOver}
+              onDrop={() => handleDrop(column.id)}
+              className="glass-card p-5 min-h-[500px] relative overflow-hidden"
+            >
+              {/* Subtle decorative orb */}
               <div 
-                className="w-10 h-10 rounded-xl flex items-center justify-center"
+                className="absolute -bottom-20 -right-20 w-40 h-40 rounded-full opacity-30 blur-3xl pointer-events-none"
                 style={{ background: column.gradient }}
-              >
+              />
+            {/* Column Header */}
+              <div className="flex items-center gap-3 mb-4 pb-3 border-b border-white/40 relative z-10">
+                <div 
+                  className="icon-sphere w-10 h-10 flex items-center justify-center"
+                  style={{ background: column.gradient }}
+                >
                 <column.icon className="w-5 h-5 text-white" />
               </div>
               <div className="flex-1">
@@ -354,31 +374,26 @@ export function TasksPage() {
               </div>
             </div>
 
-            {/* Tasks */}
-            <div className="space-y-3">
+              {/* Tasks */}
+              <div className="space-y-3 relative z-10">
               {getTasksByStatus(column.id).map((task) => (
                 <div
                   key={task.id}
                   draggable
                   onDragStart={() => handleDragStart(task)}
                   className={`
-                    p-4 rounded-xl cursor-grab active:cursor-grabbing transition-all duration-200
-                    hover:scale-[1.02] hover:shadow-lg group
-                    ${draggedTask?.id === task.id ? 'opacity-50' : ''}
+                    task-card cursor-grab active:cursor-grabbing group
+                    ${draggedTask?.id === task.id ? 'opacity-50 scale-95' : ''}
                   `}
-                  style={{
-                    background: 'linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0.7) 100%)',
-                    border: '1px solid rgba(255,255,255,0.6)',
-                    boxShadow: '0 4px 15px rgba(0,0,0,0.05)',
-                  }}
                 >
                   {/* Priority & Menu */}
                   <div className="flex items-center justify-between mb-2">
                     <span 
-                      className="px-2 py-0.5 rounded-full text-xs font-semibold flex items-center gap-1"
+                      className="px-2.5 py-1 rounded-full text-xs font-bold flex items-center gap-1 shadow-sm"
                       style={{ 
-                        background: priorityConfig[task.priority].bg,
+                        background: priorityConfig[task.priority].gradient,
                         color: priorityConfig[task.priority].color,
+                        boxShadow: '0 2px 6px rgba(0,0,0,0.15), inset 0 1px 0 rgba(255,255,255,0.3)',
                       }}
                     >
                       <Flag className="w-3 h-3" />

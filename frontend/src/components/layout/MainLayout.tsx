@@ -35,27 +35,58 @@ export function MainLayout() {
 
   return (
     <div className="min-h-screen relative overflow-hidden">
-      {/* Background */}
+      {/* Frutiger Aero Background - Sky gradient with nature feel */}
       <div 
         className="fixed inset-0 -z-10"
         style={{
-          background: 'linear-gradient(180deg, #87CEEB 0%, #B0E0E6 30%, #E0F7FA 60%, #F0FFF0 100%)',
+          background: `
+            linear-gradient(
+              180deg, 
+              #4aa8d8 0%, 
+              #6ec6e6 15%,
+              #8ad4ef 30%,
+              #a8e4f8 50%,
+              #c5eefa 70%,
+              #e0f5fc 85%,
+              #f0faff 100%
+            )
+          `,
         }}
       />
 
-      {/* Decorative orbs */}
-      <div className="orb w-96 h-96 bg-cyan-200/20 -top-32 -left-32 fixed" style={{ animationDelay: '0s' }} />
-      <div className="orb w-80 h-80 bg-green-200/20 top-1/2 -right-20 fixed" style={{ animationDelay: '3s' }} />
+      {/* Cloud-like decorative elements */}
+      <div 
+        className="fixed top-10 left-1/4 w-64 h-32 rounded-full opacity-40 blur-3xl"
+        style={{ background: 'rgba(255, 255, 255, 0.8)' }}
+      />
+      <div 
+        className="fixed top-20 right-1/3 w-48 h-24 rounded-full opacity-30 blur-2xl"
+        style={{ background: 'rgba(255, 255, 255, 0.9)' }}
+      />
+      <div 
+        className="fixed bottom-20 left-1/3 w-80 h-40 rounded-full opacity-20 blur-3xl"
+        style={{ background: 'rgba(255, 255, 255, 0.7)' }}
+      />
+
+      {/* Floating orbs - Aero style */}
+      <div className="orb orb-cyan w-80 h-80 -top-20 -left-20 fixed" style={{ animationDelay: '0s' }} />
+      <div className="orb orb-blue w-96 h-96 top-1/3 -right-32 fixed" style={{ animationDelay: '2s' }} />
+      <div className="orb orb-green w-64 h-64 bottom-20 left-1/4 fixed" style={{ animationDelay: '4s' }} />
+
+      {/* Decorative bubbles */}
+      <div className="bubble w-8 h-8 fixed top-32 right-1/4 opacity-60" style={{ animationDelay: '1s' }} />
+      <div className="bubble w-5 h-5 fixed top-48 right-1/3 opacity-50" style={{ animationDelay: '2s' }} />
+      <div className="bubble w-6 h-6 fixed bottom-40 right-1/4 opacity-40" style={{ animationDelay: '3s' }} />
 
       {/* Mobile menu button */}
       <button
         onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-        className="lg:hidden fixed top-4 left-4 z-50 p-3 rounded-xl glass-card"
+        className="lg:hidden fixed top-4 left-4 z-50 p-3 rounded-2xl glass-card"
       >
         {mobileMenuOpen ? (
-          <X className="w-6 h-6" style={{ color: '#1a365d' }} />
+          <X className="w-6 h-6 text-sky-800" />
         ) : (
-          <Menu className="w-6 h-6" style={{ color: '#1a365d' }} />
+          <Menu className="w-6 h-6 text-sky-800" />
         )}
       </button>
 
@@ -67,32 +98,18 @@ export function MainLayout() {
           ${mobileMenuOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
         `}
       >
-        <div 
-          className="h-full m-4 rounded-2xl flex flex-col"
-          style={{
-            background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0.6) 100%)',
-            backdropFilter: 'blur(16px)',
-            border: '1px solid rgba(255, 255, 255, 0.6)',
-            boxShadow: '0 8px 32px rgba(31, 38, 135, 0.15)',
-          }}
-        >
+        <div className="h-full m-3 flex flex-col aero-sidebar relative overflow-hidden">
           {/* Logo */}
-          <div className={`p-4 flex items-center ${sidebarOpen ? 'gap-3' : 'justify-center'}`}>
-            <div 
-              className="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 shine"
-              style={{
-                background: 'linear-gradient(180deg, #4FC3F7 0%, #0288D1 100%)',
-                boxShadow: '0 4px 15px rgba(2, 136, 209, 0.3)',
-              }}
-            >
-              <Sparkles className="w-6 h-6 text-white" />
+          <div className={`p-4 flex items-center ${sidebarOpen ? 'gap-3' : 'justify-center'} relative z-10`}>
+            <div className="icon-sphere w-12 h-12 flex-shrink-0">
+              <Sparkles className="w-6 h-6 text-white relative z-10" />
             </div>
             {sidebarOpen && (
               <div>
-                <h1 className="text-xl font-bold" style={{ color: '#1a365d' }}>
+                <h1 className="text-xl font-bold text-sky-900">
                   TaskFlow
                 </h1>
-                <p className="text-xs" style={{ color: '#4a6fa5' }}>
+                <p className="text-xs text-sky-700">
                   Aero Edition
                 </p>
               </div>
@@ -100,50 +117,41 @@ export function MainLayout() {
           </div>
 
           {/* Navigation */}
-          <nav className="flex-1 px-3 py-4 space-y-2">
+          <nav className="flex-1 px-3 py-4 space-y-2 relative z-10">
             {navItems.map((item) => (
               <NavLink
                 key={item.to}
                 to={item.to}
                 onClick={() => setMobileMenuOpen(false)}
                 className={({ isActive }) => `
-                  flex items-center rounded-xl transition-all duration-200
+                  flex items-center rounded-2xl transition-all duration-200
                   ${sidebarOpen ? 'gap-3 px-4 py-3' : 'justify-center p-3'}
                   ${isActive 
-                    ? 'text-white' 
-                    : 'hover:bg-white/40'
+                    ? 'text-white nav-item-active' 
+                    : 'text-sky-800 hover:bg-white/30'
                   }
                 `}
-                style={({ isActive }) => isActive ? {
-                  background: 'linear-gradient(180deg, #4FC3F7 0%, #0288D1 100%)',
-                  boxShadow: '0 4px 15px rgba(2, 136, 209, 0.3)',
-                } : { color: '#1a365d' }}
               >
                 <item.icon className="w-5 h-5 flex-shrink-0" />
                 {sidebarOpen && (
-                  <span className="font-medium">{item.label}</span>
+                  <span className="font-semibold">{item.label}</span>
                 )}
               </NavLink>
             ))}
           </nav>
 
           {/* User section */}
-          <div className="p-4 border-t border-white/30">
+          <div className="p-4 border-t border-white/40 relative z-10">
             <div className={`flex items-center ${sidebarOpen ? 'gap-3' : 'justify-center'}`}>
-              <div 
-                className="w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold text-white flex-shrink-0"
-                style={{
-                  background: 'linear-gradient(180deg, #81C784 0%, #388E3C 100%)',
-                }}
-              >
-                {user?.name?.charAt(0).toUpperCase() || 'U'}
+              <div className="icon-sphere-green w-10 h-10 flex-shrink-0 text-sm font-bold text-white flex items-center justify-center">
+                <span className="relative z-10">{user?.name?.charAt(0).toUpperCase() || 'U'}</span>
               </div>
               {sidebarOpen && (
                 <div className="flex-1 min-w-0">
-                  <p className="font-semibold truncate" style={{ color: '#1a365d' }}>
+                  <p className="font-semibold truncate text-sky-900">
                     {user?.name}
                   </p>
-                  <p className="text-xs truncate" style={{ color: '#4a6fa5' }}>
+                  <p className="text-xs truncate text-sky-700">
                     {user?.totalPoints || 0} pontos
                   </p>
                 </div>
@@ -153,18 +161,17 @@ export function MainLayout() {
             <div className={`mt-3 flex ${sidebarOpen ? 'gap-2' : 'flex-col gap-2 items-center'}`}>
               <NavLink
                 to="/profile"
-                className={`flex items-center justify-center gap-2 rounded-xl hover:bg-white/40 transition-colors ${sidebarOpen ? 'flex-1 px-3 py-2' : 'p-2'}`}
-                style={{ color: '#4a6fa5' }}
+                className={`flex items-center justify-center gap-2 rounded-xl hover:bg-white/30 transition-colors text-sky-700 ${sidebarOpen ? 'flex-1 px-3 py-2' : 'p-2'}`}
               >
                 <User className="w-4 h-4" />
-                {sidebarOpen && <span className="text-sm">Perfil</span>}
+                {sidebarOpen && <span className="text-sm font-medium">Perfil</span>}
               </NavLink>
               <button
                 onClick={handleLogout}
-                className={`flex items-center justify-center gap-2 rounded-xl hover:bg-red-100/50 transition-colors text-red-600 ${sidebarOpen ? 'flex-1 px-3 py-2' : 'p-2'}`}
+                className={`flex items-center justify-center gap-2 rounded-xl hover:bg-red-200/50 transition-colors text-red-600 ${sidebarOpen ? 'flex-1 px-3 py-2' : 'p-2'}`}
               >
                 <LogOut className="w-4 h-4" />
-                {sidebarOpen && <span className="text-sm">Sair</span>}
+                {sidebarOpen && <span className="text-sm font-medium">Sair</span>}
               </button>
             </div>
           </div>
@@ -172,13 +179,9 @@ export function MainLayout() {
           {/* Collapse button (desktop only) */}
           <button
             onClick={() => setSidebarOpen(!sidebarOpen)}
-            className="hidden lg:flex absolute -right-3 top-1/2 -translate-y-1/2 w-6 h-6 rounded-full items-center justify-center"
-            style={{
-              background: 'linear-gradient(180deg, #4FC3F7 0%, #0288D1 100%)',
-              boxShadow: '0 2px 8px rgba(2, 136, 209, 0.3)',
-            }}
+            className="hidden lg:flex absolute -right-3 top-1/2 -translate-y-1/2 w-7 h-7 rounded-full items-center justify-center icon-sphere z-20"
           >
-            <ChevronLeft className={`w-4 h-4 text-white transition-transform ${!sidebarOpen ? 'rotate-180' : ''}`} />
+            <ChevronLeft className={`w-4 h-4 text-white transition-transform relative z-10 ${!sidebarOpen ? 'rotate-180' : ''}`} />
           </button>
         </div>
       </aside>
@@ -186,7 +189,7 @@ export function MainLayout() {
       {/* Mobile overlay */}
       {mobileMenuOpen && (
         <div 
-          className="fixed inset-0 bg-black/20 backdrop-blur-sm z-30 lg:hidden"
+          className="fixed inset-0 bg-sky-900/20 backdrop-blur-sm z-30 lg:hidden"
           onClick={() => setMobileMenuOpen(false)}
         />
       )}
@@ -195,7 +198,7 @@ export function MainLayout() {
       <main 
         className={`
           min-h-screen transition-all duration-300 
-          ${sidebarOpen ? 'lg:ml-72' : 'lg:ml-28'}
+          ${sidebarOpen ? 'lg:ml-[272px]' : 'lg:ml-[88px]'}
           pt-16 lg:pt-0
         `}
       >

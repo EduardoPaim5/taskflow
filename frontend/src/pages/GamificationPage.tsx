@@ -145,7 +145,10 @@ export function GamificationPage() {
       </div>
 
       {/* Tabs */}
-      <div className="glass-card p-2 inline-flex gap-2">
+      <div className="glass-card p-2 inline-flex gap-2 relative overflow-hidden">
+        {/* Glossy reflection */}
+        <div className="absolute inset-0 bg-gradient-to-b from-white/40 to-transparent h-1/2 pointer-events-none rounded-t-3xl" />
+        
         {[
           { id: 'profile', label: 'Perfil', icon: Trophy },
           { id: 'ranking', label: 'Ranking', icon: TrendingUp },
@@ -154,12 +157,12 @@ export function GamificationPage() {
           <button
             key={tab.id}
             onClick={() => setActiveTab(tab.id as typeof activeTab)}
-            className={`flex items-center gap-2 px-4 py-2 rounded-xl font-medium transition-all ${
-              activeTab === tab.id ? 'text-white' : ''
+            className={`flex items-center gap-2 px-4 py-2.5 rounded-xl font-semibold transition-all relative ${
+              activeTab === tab.id ? 'text-white' : 'hover:bg-white/30'
             }`}
             style={activeTab === tab.id ? {
-              background: 'linear-gradient(180deg, #4FC3F7 0%, #0288D1 100%)',
-              boxShadow: '0 4px 15px rgba(2, 136, 209, 0.3)',
+              background: 'linear-gradient(180deg, #7dd3fc 0%, #38bdf8 30%, #0ea5e9 70%, #0284c7 100%)',
+              boxShadow: '0 4px 15px rgba(2, 136, 209, 0.4), inset 0 1px 0 rgba(255,255,255,0.4)',
             } : { color: '#4a6fa5' }}
           >
             <tab.icon className="w-5 h-5" />
@@ -172,26 +175,30 @@ export function GamificationPage() {
       {activeTab === 'profile' && (
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Profile Card */}
-          <div className="glass-card p-6 text-center">
+          <div className="glass-card p-6 text-center relative overflow-hidden">
+            {/* Decorative background orb */}
+            <div className="absolute -top-20 -right-20 w-40 h-40 rounded-full bg-gradient-to-br from-cyan-300/30 to-blue-400/20 blur-3xl pointer-events-none" />
+            <div className="absolute -bottom-20 -left-20 w-40 h-40 rounded-full bg-gradient-to-br from-green-300/20 to-emerald-400/10 blur-3xl pointer-events-none" />
+            
             <div 
-              className="w-24 h-24 rounded-full mx-auto mb-4 flex items-center justify-center text-3xl font-bold text-white"
+              className="w-24 h-24 rounded-full mx-auto mb-4 flex items-center justify-center text-3xl font-bold text-white shine relative z-10"
               style={{
                 background: levelConfig.gradient,
-                boxShadow: `0 8px 25px ${levelConfig.shadow}`,
+                boxShadow: `0 8px 25px ${levelConfig.shadow}, inset 0 2px 0 rgba(255,255,255,0.4)`,
               }}
             >
               {(profile?.userName || user?.name)?.charAt(0).toUpperCase() || 'U'}
             </div>
-            <h2 className="text-2xl font-bold mb-1" style={{ color: '#1a365d' }}>
+            <h2 className="text-2xl font-bold mb-1 relative z-10" style={{ color: '#1a365d' }}>
               {profile?.userName || user?.name}
             </h2>
-            <p className="mb-4" style={{ color: '#4a6fa5' }}>{user?.email}</p>
+            <p className="mb-4 relative z-10" style={{ color: '#4a6fa5' }}>{user?.email}</p>
             
             <div 
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-full"
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-full relative z-10"
               style={{
                 background: levelConfig.gradient,
-                boxShadow: `0 4px 15px ${levelConfig.shadow}`,
+                boxShadow: `0 4px 15px ${levelConfig.shadow}, inset 0 1px 0 rgba(255,255,255,0.4)`,
               }}
             >
               <Zap className="w-5 h-5 text-white" />
@@ -202,17 +209,14 @@ export function GamificationPage() {
 
             {/* Progress to next level */}
             {profile?.pointsToNextLevel && profile.pointsToNextLevel > 0 && (
-              <div className="mt-4">
+              <div className="mt-4 relative z-10">
                 <p className="text-sm mb-2" style={{ color: '#4a6fa5' }}>
                   {profile.pointsToNextLevel} pontos para o proximo nivel
                 </p>
-                <div className="h-2 rounded-full bg-white/30 overflow-hidden">
+                <div className="progress-aero h-3">
                   <div 
-                    className="h-full rounded-full"
-                    style={{
-                      width: `${profile.progressPercentage || 0}%`,
-                      background: levelConfig.gradient,
-                    }}
+                    className="progress-aero-fill"
+                    style={{ width: `${profile.progressPercentage || 0}%` }}
                   />
                 </div>
               </div>
@@ -221,15 +225,9 @@ export function GamificationPage() {
 
           {/* Stats */}
           <div className="lg:col-span-2 grid grid-cols-2 gap-4">
-            <div className="glass-card p-6">
+            <div className="stat-card">
               <div className="flex items-center gap-4">
-                <div 
-                  className="w-14 h-14 rounded-2xl flex items-center justify-center"
-                  style={{
-                    background: 'linear-gradient(180deg, #FFD54F 0%, #FF9800 100%)',
-                    boxShadow: '0 6px 20px rgba(255, 152, 0, 0.4)',
-                  }}
-                >
+                <div className="icon-sphere icon-sphere-orange w-14 h-14 flex items-center justify-center">
                   <Trophy className="w-7 h-7 text-white" />
                 </div>
                 <div>
@@ -241,15 +239,9 @@ export function GamificationPage() {
               </div>
             </div>
 
-            <div className="glass-card p-6">
+            <div className="stat-card">
               <div className="flex items-center gap-4">
-                <div 
-                  className="w-14 h-14 rounded-2xl flex items-center justify-center"
-                  style={{
-                    background: 'linear-gradient(180deg, #81C784 0%, #388E3C 100%)',
-                    boxShadow: '0 6px 20px rgba(56, 142, 60, 0.4)',
-                  }}
-                >
+                <div className="icon-sphere icon-sphere-green w-14 h-14 flex items-center justify-center">
                   <Target className="w-7 h-7 text-white" />
                 </div>
                 <div>
@@ -261,13 +253,13 @@ export function GamificationPage() {
               </div>
             </div>
 
-            <div className="glass-card p-6">
+            <div className="stat-card">
               <div className="flex items-center gap-4">
                 <div 
-                  className="w-14 h-14 rounded-2xl flex items-center justify-center"
+                  className="icon-sphere w-14 h-14 flex items-center justify-center"
                   style={{
                     background: 'linear-gradient(180deg, #FF8A65 0%, #E64A19 100%)',
-                    boxShadow: '0 6px 20px rgba(230, 74, 25, 0.4)',
+                    boxShadow: '0 4px 15px rgba(230, 74, 25, 0.4), inset 0 2px 0 rgba(255,255,255,0.4)',
                   }}
                 >
                   <Flame className="w-7 h-7 text-white" />
@@ -281,15 +273,9 @@ export function GamificationPage() {
               </div>
             </div>
 
-            <div className="glass-card p-6">
+            <div className="stat-card">
               <div className="flex items-center gap-4">
-                <div 
-                  className="w-14 h-14 rounded-2xl flex items-center justify-center"
-                  style={{
-                    background: 'linear-gradient(180deg, #BA68C8 0%, #7B1FA2 100%)',
-                    boxShadow: '0 6px 20px rgba(123, 31, 162, 0.4)',
-                  }}
-                >
+                <div className="icon-sphere icon-sphere-purple w-14 h-14 flex items-center justify-center">
                   <Award className="w-7 h-7 text-white" />
                 </div>
                 <div>
@@ -304,15 +290,20 @@ export function GamificationPage() {
 
           {/* Heatmap */}
           {heatmap.length > 0 && (
-            <div className="lg:col-span-3 glass-card p-6">
-              <div className="flex items-center gap-3 mb-4">
-                <Calendar className="w-6 h-6" style={{ color: '#0288D1' }} />
+            <div className="lg:col-span-3 glass-card p-6 relative overflow-hidden">
+              {/* Decorative element */}
+              <div className="absolute -bottom-10 -right-10 w-32 h-32 rounded-full bg-gradient-to-br from-green-300/20 to-emerald-400/10 blur-3xl pointer-events-none" />
+              
+              <div className="flex items-center gap-3 mb-4 relative z-10">
+                <div className="icon-sphere icon-sphere-green w-10 h-10 flex items-center justify-center">
+                  <Calendar className="w-5 h-5 text-white" />
+                </div>
                 <h3 className="text-xl font-bold" style={{ color: '#1a365d' }}>
                   Atividade no Ultimo Ano
                 </h3>
               </div>
               
-              <div className="overflow-x-auto pb-2">
+              <div className="overflow-x-auto pb-2 relative z-10">
                 <div className="flex gap-1" style={{ minWidth: 'max-content' }}>
                   {weeks.slice(-52).map((week, weekIndex) => (
                     <div key={weekIndex} className="flex flex-col gap-1">
@@ -329,7 +320,7 @@ export function GamificationPage() {
                 </div>
               </div>
 
-              <div className="flex items-center justify-end gap-2 mt-4 text-sm" style={{ color: '#4a6fa5' }}>
+              <div className="flex items-center justify-end gap-2 mt-4 text-sm relative z-10" style={{ color: '#4a6fa5' }}>
                 <span>Menos</span>
                 {[0, 2, 4, 6, 8].map((count) => (
                   <div
@@ -449,19 +440,24 @@ export function GamificationPage() {
                 return (
                   <div 
                     key={badge.id}
-                    className={`glass-card p-6 transition-all ${
+                    className={`glass-card p-6 transition-all relative overflow-hidden ${
                       isUnlocked ? 'hover:scale-105' : 'opacity-60'
                     }`}
                   >
-                    <div className="flex items-start gap-4">
+                    {/* Decorative glow for unlocked badges */}
+                    {isUnlocked && (
+                      <div className="absolute -top-10 -right-10 w-24 h-24 rounded-full bg-gradient-to-br from-yellow-300/30 to-orange-400/20 blur-2xl pointer-events-none" />
+                    )}
+                    
+                    <div className="flex items-start gap-4 relative z-10">
                       <div 
-                        className="w-16 h-16 rounded-2xl flex items-center justify-center flex-shrink-0"
+                        className="w-16 h-16 rounded-2xl flex items-center justify-center flex-shrink-0 shine"
                         style={{
                           background: isUnlocked 
                             ? 'linear-gradient(180deg, #FFD54F 0%, #FF9800 100%)'
                             : 'linear-gradient(180deg, #E0E0E0 0%, #9E9E9E 100%)',
                           boxShadow: isUnlocked 
-                            ? '0 6px 20px rgba(255, 152, 0, 0.4)'
+                            ? '0 6px 20px rgba(255, 152, 0, 0.4), inset 0 2px 0 rgba(255,255,255,0.4)'
                             : '0 4px 15px rgba(0,0,0,0.1)',
                         }}
                       >

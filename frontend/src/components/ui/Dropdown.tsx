@@ -37,14 +37,14 @@ export function Dropdown({ trigger, items, align = 'left' }: DropdownProps) {
 
       {isOpen && (
         <div 
-          className={`absolute mt-2 w-48 rounded-xl overflow-hidden z-50 ${
+          className={`absolute mt-2 w-48 rounded-2xl overflow-hidden z-50 ${
             align === 'right' ? 'right-0' : 'left-0'
           }`}
           style={{
-            background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.8) 100%)',
+            background: 'linear-gradient(180deg, rgba(255, 255, 255, 0.95) 0%, rgba(230, 245, 255, 0.9) 100%)',
             backdropFilter: 'blur(16px)',
-            border: '1px solid rgba(255, 255, 255, 0.6)',
-            boxShadow: '0 8px 32px rgba(31, 38, 135, 0.15)',
+            border: '2px solid rgba(255, 255, 255, 0.7)',
+            boxShadow: '0 8px 32px rgba(0, 100, 180, 0.15), inset 0 1px 0 rgba(255,255,255,0.9)',
           }}
         >
           {items.map((item, index) => (
@@ -107,12 +107,12 @@ export function Select({ value, onChange, options, placeholder, className = '' }
 
       {isOpen && (
         <div 
-          className="absolute mt-2 w-full rounded-xl overflow-hidden z-[100]"
+          className="absolute mt-2 w-full rounded-2xl overflow-hidden z-[100]"
           style={{
-            background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.9) 100%)',
+            background: 'linear-gradient(180deg, rgba(255, 255, 255, 0.98) 0%, rgba(230, 245, 255, 0.95) 100%)',
             backdropFilter: 'blur(16px)',
-            border: '1px solid rgba(255, 255, 255, 0.6)',
-            boxShadow: '0 8px 32px rgba(31, 38, 135, 0.15)',
+            border: '2px solid rgba(255, 255, 255, 0.7)',
+            boxShadow: '0 8px 32px rgba(0, 100, 180, 0.15), inset 0 1px 0 rgba(255,255,255,1)',
             maxHeight: '250px',
             overflowY: 'auto',
           }}
@@ -125,10 +125,13 @@ export function Select({ value, onChange, options, placeholder, className = '' }
                 onChange(option.value);
                 setIsOpen(false);
               }}
-              className={`w-full px-4 py-3 text-left hover:bg-white/50 transition-colors font-medium ${
-                option.value === value ? 'bg-aero-100/50' : ''
+              className={`w-full px-4 py-3 text-left hover:bg-cyan-100/50 transition-colors font-medium ${
+                option.value === value ? 'bg-cyan-100/60' : ''
               }`}
-              style={{ color: '#1a365d' }}
+              style={{ 
+                color: option.value === value ? '#0288D1' : '#1a365d',
+                borderBottom: '1px solid rgba(200, 230, 255, 0.3)',
+              }}
             >
               {option.label}
             </button>

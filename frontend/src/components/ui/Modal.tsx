@@ -45,20 +45,27 @@ export function Modal({ isOpen, onClose, title, children, size = 'md' }: ModalPr
       
       {/* Modal */}
       <div 
-        className={`relative w-full ${sizeClasses[size]} glass-card p-0 animate-in fade-in zoom-in-95 duration-200`}
+        className={`relative w-full ${sizeClasses[size]} glass-card p-0 animate-in fade-in zoom-in-95 duration-200 overflow-hidden`}
         style={{
-          background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.85) 0%, rgba(255, 255, 255, 0.7) 100%)',
+          background: 'linear-gradient(180deg, rgba(255, 255, 255, 0.95) 0%, rgba(220, 240, 255, 0.85) 50%, rgba(200, 230, 255, 0.8) 100%)',
         }}
       >
+        {/* Glossy top highlight */}
+        <div className="absolute top-0 left-4 right-4 h-16 bg-gradient-to-b from-white/60 to-transparent rounded-t-3xl pointer-events-none z-10" />
+        
         {/* Header */}
         {title && (
-          <div className="flex items-center justify-between px-6 py-4 border-b border-white/30">
+          <div className="flex items-center justify-between px-6 py-4 border-b border-white/40 relative z-20">
             <h2 className="text-xl font-bold" style={{ color: '#1a365d' }}>
               {title}
             </h2>
             <button
               onClick={onClose}
               className="p-2 rounded-xl hover:bg-white/50 transition-colors"
+              style={{
+                background: 'rgba(255, 255, 255, 0.4)',
+                border: '1px solid rgba(255, 255, 255, 0.5)',
+              }}
             >
               <X className="w-5 h-5" style={{ color: '#4a6fa5' }} />
             </button>
@@ -66,7 +73,7 @@ export function Modal({ isOpen, onClose, title, children, size = 'md' }: ModalPr
         )}
         
         {/* Content */}
-        <div className="p-6">
+        <div className="p-6 relative z-10">
           {children}
         </div>
       </div>

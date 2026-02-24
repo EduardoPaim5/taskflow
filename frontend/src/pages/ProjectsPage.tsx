@@ -185,17 +185,15 @@ export function ProjectsPage() {
         {filteredProjects.map((project) => (
           <div
             key={project.id}
-            className="glass-card p-6 hover:scale-[1.02] transition-all duration-300 group"
+            className="glass-card p-6 hover:scale-[1.02] transition-all duration-300 group relative overflow-hidden"
           >
+            {/* Subtle decorative element */}
+            <div className="absolute -top-10 -right-10 w-24 h-24 rounded-full bg-gradient-to-br from-cyan-300/20 to-blue-400/10 blur-2xl pointer-events-none" />
             {/* Header */}
-            <div className="flex items-start justify-between mb-4">
+            <div className="flex items-start justify-between mb-4 relative z-10">
               <div 
-                className="w-12 h-12 rounded-xl flex items-center justify-center cursor-pointer"
+                className="icon-sphere w-12 h-12 cursor-pointer hover:scale-110 transition-transform"
                 onClick={() => navigate(`/projects/${project.id}`)}
-                style={{
-                  background: 'linear-gradient(180deg, #4FC3F7 0%, #0288D1 100%)',
-                  boxShadow: '0 4px 15px rgba(2, 136, 209, 0.3)',
-                }}
               >
                 <FolderKanban className="w-6 h-6 text-white" />
               </div>
@@ -237,19 +235,21 @@ export function ProjectsPage() {
             </div>
 
             {/* Content */}
-            <h3 
-              className="text-lg font-bold mb-2 cursor-pointer hover:underline" 
-              style={{ color: '#1a365d' }}
-              onClick={() => navigate(`/projects/${project.id}`)}
-            >
-              {project.name}
-            </h3>
-            <p className="text-sm mb-4 line-clamp-2" style={{ color: '#4a6fa5' }}>
-              {project.description}
-            </p>
+            <div className="relative z-10">
+              <h3 
+                className="text-lg font-bold mb-2 cursor-pointer hover:underline" 
+                style={{ color: '#1a365d' }}
+                onClick={() => navigate(`/projects/${project.id}`)}
+              >
+                {project.name}
+              </h3>
+              <p className="text-sm mb-4 line-clamp-2" style={{ color: '#4a6fa5' }}>
+                {project.description}
+              </p>
+            </div>
 
             {/* Meta */}
-            <div className="flex items-center gap-4 text-sm" style={{ color: '#4a6fa5' }}>
+            <div className="flex items-center gap-4 text-sm relative z-10" style={{ color: '#4a6fa5' }}>
               <div className="flex items-center gap-1">
                 <Users className="w-4 h-4" />
                 <span>{(project.members?.length || 0) + 1}</span>
@@ -261,12 +261,13 @@ export function ProjectsPage() {
             </div>
 
             {/* Owner badge */}
-            <div className="mt-4 pt-4 border-t border-white/30">
+            <div className="mt-4 pt-4 border-t border-white/40 relative z-10">
               <div className="flex items-center gap-2">
                 <div 
-                  className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold text-white"
+                  className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold text-white shine"
                   style={{
                     background: 'linear-gradient(180deg, #81C784 0%, #388E3C 100%)',
+                    boxShadow: '0 2px 8px rgba(56, 142, 60, 0.3)',
                   }}
                 >
                   {project.owner.name.charAt(0)}
@@ -288,18 +289,19 @@ export function ProjectsPage() {
             setFormData({ name: '', description: '' });
             setIsCreateModalOpen(true);
           }}
-          className="glass-card p-6 border-2 border-dashed border-white/40 hover:border-aero-400 transition-colors flex flex-col items-center justify-center min-h-[250px] group"
+          className="glass-card p-6 border-2 border-dashed border-white/50 hover:border-cyan-300/60 transition-all duration-300 flex flex-col items-center justify-center min-h-[250px] group relative overflow-hidden"
         >
+          {/* Decorative background */}
+          <div className="absolute inset-0 bg-gradient-to-br from-cyan-100/20 to-blue-100/10 opacity-0 group-hover:opacity-100 transition-opacity" />
+          
           <div 
-            className="w-16 h-16 rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform"
-            style={{
-              background: 'linear-gradient(180deg, rgba(79,195,247,0.2) 0%, rgba(2,136,209,0.2) 100%)',
-            }}
+            className="icon-sphere w-16 h-16 mb-4 group-hover:scale-110 transition-transform relative z-10"
+            style={{ background: 'linear-gradient(180deg, rgba(79,195,247,0.6) 0%, rgba(2,136,209,0.4) 100%)' }}
           >
-            <Plus className="w-8 h-8" style={{ color: '#0288D1' }} />
+            <Plus className="w-8 h-8 text-white" />
           </div>
-          <p className="font-semibold" style={{ color: '#1a365d' }}>Criar novo projeto</p>
-          <p className="text-sm" style={{ color: '#4a6fa5' }}>Clique para adicionar</p>
+          <p className="font-semibold relative z-10" style={{ color: '#1a365d' }}>Criar novo projeto</p>
+          <p className="text-sm relative z-10" style={{ color: '#4a6fa5' }}>Clique para adicionar</p>
         </button>
       </div>
 
