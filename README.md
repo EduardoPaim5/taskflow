@@ -23,6 +23,20 @@ Nexilum is an application inspired by tools like Jira and Trello, with a twist: 
 - **Reports** exportable in PDF and CSV
 - **OpenAPI/Swagger Documentation**
 
+## Screenshots
+
+### Login Page
+![Login](/docs/screenshots/login.png)
+
+### Dashboard
+![Dashboard](/docs/screenshots/dashboard.png)
+
+### Tasks (Kanban Board)
+![Tasks](/docs/screenshots/tasks.png)
+
+### Gamification
+![Gamification](/docs/screenshots/gamification.png)
+
 ## Tech Stack
 
 ### Backend
