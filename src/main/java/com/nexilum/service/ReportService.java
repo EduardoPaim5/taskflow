@@ -286,7 +286,7 @@ public class ReportService {
 
     private void addReportFooter(Document document) {
         document.add(new Paragraph("\n"));
-        Paragraph footer = new Paragraph("TaskFlow - Sistema de Gestao de Projetos")
+        Paragraph footer = new Paragraph("Nexilum - Sistema de Gestao de Projetos")
                 .setFontSize(8)
                 .setTextAlignment(TextAlignment.CENTER)
                 .setFontColor(ColorConstants.GRAY);
