@@ -13,6 +13,11 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.*;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.DynamicPropertyRegistry;
+import org.springframework.test.context.DynamicPropertySource;
+import org.testcontainers.containers.PostgreSQLContainer;
+import org.testcontainers.junit.jupiter.Container;
+import org.testcontainers.junit.jupiter.Testcontainers;
 
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -23,9 +28,25 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("test")
+@Testcontainers(disabledWithoutDocker = true)
 public abstract class BaseIntegrationTest {
 
     private static final AtomicInteger USER_COUNTER = new AtomicInteger(0);
+
+    @Container
+    @SuppressWarnings("resource")
+    static final PostgreSQLContainer<?> POSTGRES = new PostgreSQLContainer<>("postgres:16-alpine")
+            .withDatabaseName("taskflow_test")
+            .withUsername("taskflow")
+            .withPassword("taskflow123");
+
+    @DynamicPropertySource
+    static void registerDataSourceProperties(DynamicPropertyRegistry registry) {
+        registry.add("spring.datasource.url", POSTGRES::getJdbcUrl);
+        registry.add("spring.datasource.username", POSTGRES::getUsername);
+        registry.add("spring.datasource.password", POSTGRES::getPassword);
+        registry.add("spring.datasource.driver-class-name", POSTGRES::getDriverClassName);
+    }
 
     @LocalServerPort
     protected int port;

@@ -1,12 +1,9 @@
 package com.nexilum;
 
+import com.nexilum.integration.BaseIntegrationTest;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ActiveProfiles;
 
-@SpringBootTest
-@ActiveProfiles("test")
-class NexilumApplicationTests {
+class NexilumApplicationTests extends BaseIntegrationTest {
 
     @Test
     void contextLoads() {

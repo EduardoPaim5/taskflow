@@ -67,7 +67,7 @@ Nexilum is an application inspired by tools like Jira and Trello, with a twist: 
 
 ## Prerequisites
 
-- Java 17+
+- Java 17 (recommended for local builds and tests)
 - Docker and Docker Compose
 - Maven 3.8+ (or use the wrapper `./mvnw`)
 
@@ -216,6 +216,12 @@ src/main/java/com/nexilum/
 
 # View coverage report
 open target/site/jacoco/index.html
+```
+
+If your default JDK is newer than 17, run tests with Java 17 explicitly:
+
+```bash
+JAVA_HOME=/usr/lib/jvm/java-17-openjdk PATH=/usr/lib/jvm/java-17-openjdk/bin:$PATH ./mvnw test
 ```
 
 ## Docker
