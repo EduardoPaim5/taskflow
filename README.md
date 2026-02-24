@@ -50,7 +50,7 @@ TaskFlow é uma aplicação inspirada em ferramentas como Jira e Trello, com um 
 ### 1. Clone o repositório
 
 ```bash
-git clone https://github.com/seuuser/taskflow.git
+git clone https://github.com/EduardoPaim5/taskflow.git
 cd taskflow
 ```
 
@@ -237,9 +237,9 @@ docker-compose up -d
 
 - [x] Setup inicial do projeto
 - [x] Autenticação JWT
-- [ ] CRUD de Projetos
-- [ ] CRUD de Tarefas
-- [ ] Sistema de Comentários
+- [x] CRUD de Projetos
+- [x] CRUD de Tarefas
+- [x] Sistema de Comentários
 - [ ] Histórico de Atividades
 - [ ] Sistema de Gamificação
 - [ ] WebSocket para tempo real
