@@ -21,7 +21,7 @@
         <java.version>17</java.version>
         <jjwt.version>0.12.3</jjwt.version>
         <springdoc.version>2.3.0</springdoc.version>
-        <testcontainers.version>1.19.3</testcontainers.version>
+        <testcontainers.version>1.21.3</testcontainers.version>
         <lombok.version>1.18.32</lombok.version>
         <mapstruct.version>1.6.3</mapstruct.version>
     </properties>
@@ -141,7 +141,7 @@
             <artifactId>spring-security-test</artifactId>
             <scope>test</scope>
         </dependency>
-        
+
         <!-- Testcontainers -->
         <dependency>
             <groupId>org.testcontainers</groupId>

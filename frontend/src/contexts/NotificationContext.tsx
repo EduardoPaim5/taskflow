@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 import {
   createContext,
   useContext,
@@ -80,6 +81,7 @@ export function NotificationProvider({ children }: { children: ReactNode }) {
       }
     } else {
       websocketService.disconnect();
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setIsConnected(false);
       setNotifications([]);
     }
